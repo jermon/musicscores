@@ -9,7 +9,7 @@ parts:
   - 
 
 ---
-# Every body want so be a cat
+# Every body wants to be a cat
 
 {% for i in (1..10) %}
 
