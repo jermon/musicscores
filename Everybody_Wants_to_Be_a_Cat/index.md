@@ -13,13 +13,14 @@ parts:
 
 {% for i in (1..10) %}
 
-![{{page.basename}}-Partitura-01.svg]({{page.basename}}-Partitura-0{{ i }}.svg)
+![{{page.basename}}-Partitura-01.svg]({{page.basename}}-Partitura-0{{ i prepend: '0' | slice: -2, 2 }}.svg)
 
 {% endfor %}
 
 
 ## Part files
-- [Soprano](soprano.mp3)
-- [Alto](alto.mp3)
-- [Tenor](tenor.mp3)
-- [Baryton](barytone.mp3)
+
+{% p in page.parts %}
+### {{ p }}
+    [note part]({{page.basename}}-{{ p }}-01.svg) [MP3]({{page.basename}}-{{ p }}.mp3)
+{% endfor %}
