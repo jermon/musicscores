@@ -23,7 +23,7 @@ parts:
 {% for p in page.parts %}
 ### {{ p }}
 
-[note part]({{page.basename}}-{{ p }}-01.svg) 
+[note part]({{page.basename}}-{{ p }}-1.svg) 
 
 [MP3]({{page.basename}}-{{ p }}.mp3)
 
