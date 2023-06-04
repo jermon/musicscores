@@ -13,7 +13,7 @@ parts:
 
 {% for i in (1..10) %}
 
-![{{page.basename}}-Partitura-01.svg]({{page.basename}}-Partitura-0${i}.svg)
+![{{page.basename}}-Partitura-01.svg]({{page.basename}}-Partitura-0{{ i }}.svg)
 
 {% endfor %}
 
