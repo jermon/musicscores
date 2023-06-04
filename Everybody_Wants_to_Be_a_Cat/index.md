@@ -13,7 +13,7 @@ parts:
 
 {% for i in (1..10) %}
 
-![{{page.basename}}-Partitura-01.svg]({{page.basename}}-Partitura-0{{ i prepend: '0' | slice: -2, 2 }}.svg)
+![{{page.basename}}-Partitura-{{ i prepend: '0' | slice: -2, 2 }}.svg]({{page.basename}}-Partitura-{{ i prepend: '0' | slice: -2, 2 }}.svg)
 
 {% endfor %}
 
@@ -22,5 +22,6 @@ parts:
 
 {% for p in page.parts %}
 ### {{ p }}
-    [note part]({{page.basename}}-{{ p }}-01.svg) [MP3]({{page.basename}}-{{ p }}.mp3)
+    [note part]({{page.basename}}-{{ p }}-01.svg) 
+    [MP3]({{page.basename}}-{{ p }}.mp3)
 {% endfor %}
