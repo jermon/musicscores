@@ -20,7 +20,7 @@ parts:
 
 ## Part files
 
-{% p in page.parts %}
+{% for p in page.parts %}
 ### {{ p }}
     [note part]({{page.basename}}-{{ p }}-01.svg) [MP3]({{page.basename}}-{{ p }}.mp3)
 {% endfor %}
