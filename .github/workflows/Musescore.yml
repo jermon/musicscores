@@ -23,6 +23,7 @@ jobs:
       - uses: actions/checkout@v2
       # Install flatpak and the MuseScore 3.6 flatpak
       - name: Install musescore 3.6
+        working-directory: ./Everybody_Wants_to_Be_a_Cat #optional
         run: |
           sudo add-apt-repository ppa:mscore-ubuntu/mscore3-stable
           sudo apt-get update
