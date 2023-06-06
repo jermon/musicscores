@@ -21,13 +21,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      # Install flatpak and the MuseScore 3.6 flatpak
+
       - name: Install musescore 3.6
         working-directory: ./Everybody_Wants_to_Be_a_Cat #optional
         run: |
           sudo add-apt-repository ppa:mscore-ubuntu/mscore3-stable
           sudo apt-get update
           sudo apt-get install musescore3
+          which musescore
       # sudo apt install flatpak
       # sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       # sudo flatpak install -y --noninteractive flathub org.musescore.MuseScore                    
