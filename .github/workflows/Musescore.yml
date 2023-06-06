@@ -35,6 +35,7 @@ jobs:
       # Create a Virtual X Frame Buffer and run the makefile inside of it using the flatpak installation
       # of musescore
       - name: Run Makefile to make PDFs, MP3s, etc
+        working-directory: ./Everybody_Wants_to_Be_a_Cat
         run: make
         
       #- name: Run Makefile to make PDFs, MP3s, etc
