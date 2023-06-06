@@ -46,7 +46,10 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           working-directory: ./Everybody_Wants_to_Be_a_Cat 
-          run: make MSCORE="flatpak run org.musescore.MuseScore"
+          run: |
+            pwd
+            ls
+            make MSCORE="flatpak run org.musescore.MuseScore"
             
       - name: Add Commit and Push
         run: |
