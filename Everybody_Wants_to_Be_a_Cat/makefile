@@ -1,4 +1,4 @@
-MSCORE := "musescore3"
+MSCORE := "musescore"
 
 MSCX_FILES = $(shell find . -name "*.mscx")
 MSCZ_FILES = $(shell find . -name "*.mscz")
