@@ -17,33 +17,40 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+
       - uses: actions/checkout@v2
 
+#      - name: Install musescore repo
+#        run: |
+#          sudo add-apt-repository ppa:mscore-ubuntu/mscore3-stable
+#          sudo apt-get update
+          
+ #     - name: Install musescore 3.6
+ #       run: |
+ #         sudo apt-get install musescore3
+          
       - name: Install musescore 3.6
-        working-directory: ./Everybody_Wants_to_Be_a_Cat #optional
         run: |
-          sudo add-apt-repository ppa:mscore-ubuntu/mscore3-stable
-          sudo apt-get update
-          sudo apt-get install musescore3
-          which musescore
-      # sudo apt install flatpak
-      # sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-      # sudo flatpak install -y --noninteractive flathub org.musescore.MuseScore                    
+          sudo apt install flatpak
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          sudo flatpak install -y --noninteractive flathub org.musescore.MuseScore                    
       
       # Create a Virtual X Frame Buffer and run the makefile inside of it using the flatpak installation
       # of musescore
-      - name: Run Makefile to make PDFs, MP3s, etc
-        working-directory: ./Everybody_Wants_to_Be_a_Cat
-        run: make
-        
       #- name: Run Makefile to make PDFs, MP3s, etc
-      #  uses: GabrielBB/xvfb-action@v1
-      #  with:
-      #    working-directory: ./Everybody_Wants_to_Be_a_Cat #optional
-      #    run: make MSCORE="flatpak run org.musescore.MuseScore"
+      #  working-directory: ./Everybody_Wants_to_Be_a_Cat
+      #  run: make
+        
+      - name: Run Makefile to make PDFs, MP3s, etc
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          working-directory: ./Everybody_Wants_to_Be_a_Cat 
+          run: |
+            pwd
+            ls
+            make MSCORE="flatpak run org.musescore.MuseScore"
+            
       - name: Add Commit and Push
         run: |
           git config --global user.email "email@address"
