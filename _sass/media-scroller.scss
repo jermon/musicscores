@@ -1,5 +1,6 @@
 .media-scroller {
     display: grid;
+    gap: 5px;
     grid-auto-flow: column;
     grid-auto-columns: 21%;
     overflow-x: auto;
