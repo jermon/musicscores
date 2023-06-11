@@ -6,7 +6,6 @@ parts:
   - Baritone
   - Bass
   - Mezzo-soprano
-  - 
 
 ---
 # Every body wants to be a cat
@@ -17,14 +16,15 @@ parts:
 
 {% endfor %}
 
+[XMLPlay](../xmlplay.html?Everybody_Wants_to_Be_a_Cat/Everybody_Wants_to_Be_a_Cat.xml)
+
+<a href="xmlplay.html?Everybody_Wants_to_Be_a_Cat/Everybody_Wants_to_Be_a_Cat.xml">Everybody_Wants_to_Be_a_Cat</a>
 
 ## Part files
 
 {% for p in page.parts %}
 ### {{ p }}
 
-[note part]({{page.basename}}-{{ p }}-1.svg) 
-
-[MP3]({{page.basename}}-{{ p }}.mp3)
+[note part]({{page.basename}}-{{ p }}-1.svg) [MP3]({{page.basename}}-{{ p }}.mp3)
 
 {% endfor %}
