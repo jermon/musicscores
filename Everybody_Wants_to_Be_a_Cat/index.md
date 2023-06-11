@@ -18,7 +18,7 @@ parts:
 
 [XMLPlay](../xmlplay.html?Everybody_Wants_to_Be_a_Cat/Everybody_Wants_to_Be_a_Cat.xml)
 
-<a href="xmlplay.html?Everybody_Wants_to_Be_a_Cat/Everybody_Wants_to_Be_a_Cat.xml">Everybody_Wants_to_Be_a_Cat</a>
+<a href="../xmlplay.html?Everybody_Wants_to_Be_a_Cat/Everybody_Wants_to_Be_a_Cat.xml">Everybody_Wants_to_Be_a_Cat</a>
 
 ## Part files
 
