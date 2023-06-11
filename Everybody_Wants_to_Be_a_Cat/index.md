@@ -8,6 +8,8 @@ parts:
   - Mezzo-soprano
 
 ---
+<link rel="stylesheet" href="css/main.css">
+
 # Every body wants to be a cat
 
 <div class="media-scroller">
