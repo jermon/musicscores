@@ -8,9 +8,13 @@ parts:
   - Mezzo-soprano
 
 ---
-<link rel="stylesheet" href="css/main.css">
-
-# Every body wants to be a cat
+<html>
+  <head>
+    <link rel="stylesheet" href="css/main.css">
+    
+  </head>
+  <body>
+    <h1>Every body wants to be a cat</h1>
 
 <div class="media-scroller">
 {% for i in (1..10) %}
@@ -21,15 +25,20 @@ parts:
 {% endfor %}
 </div>
 
-[XMLPlay](../xmlplay.html?Everybody_Wants_to_Be_a_Cat/Everybody_Wants_to_Be_a_Cat.xml)
 
 <a href="../xmlplay.html?Everybody_Wants_to_Be_a_Cat/Everybody_Wants_to_Be_a_Cat.xml">Everybody_Wants_to_Be_a_Cat</a>
 
-## Part files
+<h2>Part files</h2>
 
 {% for p in page.parts %}
-### {{ p }}
+<h3>{{ p }}</h3>
 
-[note part]({{page.basename}}-{{ p }}-1.svg) [MP3]({{page.basename}}-{{ p }}.mp3)
+<a href="{{page.basename}}-{{ p }}-1.svg">note part</a>
+<a href="{{page.basename}}-{{ p }}.mp3">MP3</a>
 
 {% endfor %}
+  </body>
+</html>
+
+
+
