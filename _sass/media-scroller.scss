@@ -6,3 +6,17 @@
     overflow-x: auto;
     overscroll-behavior-inline: contain;
 }
+
+.media-element {
+    padding: 5px;
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+.media-element > img {
+    inline-size: min(100% -4 rem, 70rem);
+    margin-inline: auto;
+    aspect-ratio: 4 / 3 ;
+    object-fit: cover;
+
+}
