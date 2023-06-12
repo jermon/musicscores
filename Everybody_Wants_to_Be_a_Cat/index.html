@@ -10,7 +10,7 @@ parts:
 ---
 <html>
   <head>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
   </head>
   <body>
     <h1>Every body wants to be a cat</h1>
@@ -36,6 +36,8 @@ parts:
 <a href="{{page.basename}}-{{ p }}.mp3">MP3</a>
 
 {% endfor %}
+
+Site.url: {{ site.url }}
   </body>
 </html>
 
