@@ -30,10 +30,11 @@ parts:
 
 {% for p in page.parts %}
 <h3>{{ p }}</h3>
-
 <a href="{{page.basename}}-{{ p }}-1.svg">note part</a>
-<a href="{{page.basename}}-{{ p }}.mp3">MP3</a>
-
+<audio controls>
+  <source src="{{page.basename}}-{{ p }}.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
 {% endfor %}
 
 Site.url: {{ site.url }}
