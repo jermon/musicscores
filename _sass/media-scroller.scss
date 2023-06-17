@@ -1,21 +1,11 @@
 .media-scroller {
-    display: grid;
-    gap: 5px;
-    grid-auto-flow: column;
-    grid-auto-columns: 21%;
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
+    display: inline-block;
 }
 
 .media-element {
-    padding: 5px;
-    background-color: aliceblue;
-    border-radius: 5px;
+    background-color: beige;
 }
 
 img.media-element  {
-    margin-inline: auto;
-    aspect-ratio: 4 / 3 ;
-    object-fit: cover;
-    height: 10%;
+    height: 50%;
 }
