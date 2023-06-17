@@ -19,7 +19,7 @@ parts:
 {% for i in (1..10) %}
 {% assign sheetnumber = i | prepend: '0' | slice: -2, 2 %}
   <div class="media-element">
-  <img src="{{page.basename}}-Partitura-{{ sheetnumber }}.svg" alt="{{page.basename}}-Partitura-{{ sheetnumber }}">
+  <img height=50% width=auto src="{{page.basename}}-Partitura-{{ sheetnumber }}.svg" alt="{{page.basename}}-Partitura-{{ sheetnumber }}">
   </div>
 {% endfor %}
 </div>
