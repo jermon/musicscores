@@ -1,0 +1,27 @@
+html, 
+body { 
+    width: 100%; 
+    height: 100%; 
+    margin: 0px; 
+    padding: 0px; 
+}
+
+#btns { 
+    height: 5%; 
+}
+
+#notation { 
+    width: 100%;
+    height: 95%;
+    overflow: auto;
+    position: relative
+}
+
+#spdlbl { 
+    display: inline; 
+    vertical-align: top; 
+}
+
+#speed { 
+    width: 4em; 
+}

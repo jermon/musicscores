@@ -39,7 +39,7 @@ all: $(PDFS) $(MP3S) $(JOB_OUTS)
 
 .PHONY: clean
 clean:
-	rm *.pdf *.mp3 *.svg
+	rm -f *.pdf *.mp3 *.svg *.mpos job.job
 	# Remove all files referenced by job files
 	#-for job_file in ${JOB_OUTS}; do cat $$job_file | xargs rm; done
 	#-rm -r "$(JOB_OUTS)"
