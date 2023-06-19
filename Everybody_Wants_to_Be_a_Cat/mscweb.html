@@ -1,3 +1,16 @@
+---
+basename: Everybody_Wants_to_Be_a_Cat
+parts:
+  - Voice
+  - Soprano
+  - Mezzo-soprano
+  - Alto
+  - Baritone
+  - Bass
+
+---
+{% include base.html %}
+
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -12,7 +25,25 @@
 <body>
     <div id="revision" style="display:none">34</div>
     <div id="btns">
+        <form id="voice" action="">
+            <label for="voice">Voice</label>
+            <select name="voice" id="voice_select">
+                <option value="{{page.basename}}.mp3" selected>Tutti</option>
+                {% for p in page.parts %}
+                <option value="{{page.basename}}-{{ p }}.mp3">{{ p }}</option>
+                {% endfor %}
+            </select>
+        </form>
         <audio id="aud" controls="controls">Your browser does not support the audio element.</audio>
+        <script>
+            var e = document.getElementById("voice_select");
+            function onChange() {
+                var a = document.getElementById("aud")
+                a.src = e.value;
+            }
+            e.onchange = onChange;
+            onChange();
+        </script>
         <form id="spdlbl">speed: 
             <input id="speed" type="number" value="1.0" min="0.1" step="0.05" max="4.0">
         </form>
