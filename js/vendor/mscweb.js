@@ -32,8 +32,8 @@ var theSvgs,    // array of all svg pictures (dom trees) on the page
 function prepareSvgs (page) {
     theSvgs = $('#notation').find ('svg').get ();   // get all svg's in the notation area
     theSvgs.forEach (function (svg) {
-        svg.setAttribute ('width', '100%');         // scale svg to full page width
-        svg.removeAttribute ('height');             // height should not be set
+        svg.setAttribute ('height', '100%');         // scale svg to full page height
+        svg.removeAttribute ('width');             // width should not be set
         svg.addEventListener ('mousedown', scoreClick);
         svgWidth = svg.viewBox.baseVal.width;       // svg page width (assume all pages equal)
     });
