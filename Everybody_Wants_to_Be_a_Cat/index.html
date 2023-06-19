@@ -1,6 +1,7 @@
 ---
 basename: Everybody_Wants_to_Be_a_Cat
 parts:
+  - Voice
   - Soprano
   - Mezzo-soprano
   - Alto
@@ -8,6 +9,8 @@ parts:
   - Bass
 
 ---
+{% include base.html %}
+
 <html>
   <head>
     <link rel="stylesheet" href="../css/main.css">
@@ -23,7 +26,7 @@ parts:
 </div>
 
 <h2>Playable score</h2>
-<iframe src="../xmlplay.html?Everybody_Wants_to_Be_a_Cat/Everybody_Wants_to_Be_a_Cat.xml" title="Everybody_Wants_to_Be_a_Cat">
+<iframe src="{{ base }}/xmlplay.html?Everybody_Wants_to_Be_a_Cat/Everybody_Wants_to_Be_a_Cat.xml" title="Everybody_Wants_to_Be_a_Cat">
 </iframe>
 
 <h2>Part files</h2>
