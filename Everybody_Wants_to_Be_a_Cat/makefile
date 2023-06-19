@@ -7,9 +7,14 @@ JOB_FILES = $(shell find . -name "*.json")
 PDFS = $(MSCX_FILES:.mscx=.pdf) $(MSCZ_FILES:.mscz=.pdf)
 MP3S = $(MSCX_FILES:.mscx=.mp3) $(MSCZ_FILES:.mscz=.mp3)
 JOB_OUTS = $(JOB_FILES:.json=.job)
+VOICES = Voice Soprano Mezzo-soprano Alto Baritone Bass
+
+$(VOICES):
+	# mkdir -p $(VOICES)
+	echo $@ $<
 
 .PHONY: all
-all: $(PDFS) $(MP3S) $(JOB_OUTS)
+all: voices $(PDFS) $(MP3S) $(JOB_OUTS)
 
 %.pdf: %.mscx
 	$(MSCORE) -o $@ $<
