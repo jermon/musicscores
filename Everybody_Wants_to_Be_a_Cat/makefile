@@ -7,14 +7,9 @@ JOB_FILES = $(shell find . -name "*.json")
 PDFS = $(MSCX_FILES:.mscx=.pdf) $(MSCZ_FILES:.mscz=.pdf)
 MP3S = $(MSCX_FILES:.mscx=.mp3) $(MSCZ_FILES:.mscz=.mp3)
 JOB_OUTS = $(JOB_FILES:.json=.job)
-VOICES = Voice Soprano Mezzo-soprano Alto Baritone Bass
-
-$(VOICES):
-	# mkdir -p $(VOICES)
-	echo $@ $<
 
 .PHONY: all
-all: voices $(PDFS) $(MP3S) $(JOB_OUTS)
+all: $(PDFS) $(MP3S) $(JOB_OUTS)
 
 %.pdf: %.mscx
 	$(MSCORE) -o $@ $<
@@ -37,16 +32,10 @@ all: voices $(PDFS) $(MP3S) $(JOB_OUTS)
     # a full clean of the directory
     # 
     # CAVEAT: This does not work well for parrallel builds using make
-	touch $@.tmp
 	cd $(dir $(abspath $<)) && $(MSCORE) -j $(notdir $<) 
-	find "." -type f -newer "$@.tmp" >> $@
-	rm $@.tmp
+	cp *.pdf *.mp3 *.svg *.mpos *.xml ../_site
 
 .PHONY: clean
 clean:
-	rm -f *.pdf *.mp3 *.svg *.mpos job.job
-	# Remove all files referenced by job files
-	#-for job_file in ${JOB_OUTS}; do cat $$job_file | xargs rm; done
-	#-rm -r "$(JOB_OUTS)"
-	#-rm -r "$(PDFS)" "$(MP3S)"
+	rm -f *.pdf *.mp3 *.svg *.mpos *.xml job.job
 
