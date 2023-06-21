@@ -28,6 +28,7 @@ all: $(PDFS) $(MP3S) $(JOB_OUTS)
 %.job: %.json
 	id
 	sudo ls -laF /run/user/1001/dconf/user
+	sudo chown 1001:123 /run/user/1001/dconf/user
     # Create a file at the beginning of the job
     # Add to it a list of any files which were created in this
     # directory after the job is done running. This allows for
