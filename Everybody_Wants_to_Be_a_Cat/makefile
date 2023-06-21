@@ -26,6 +26,7 @@ all: $(PDFS) $(MP3S) $(JOB_OUTS)
 # mark the output of this job as secondary so make does not delete the intermediate files
 .SECONDARY:%.job
 %.job: %.json
+	id
     # Create a file at the beginning of the job
     # Add to it a list of any files which were created in this
     # directory after the job is done running. This allows for
@@ -35,7 +36,6 @@ all: $(PDFS) $(MP3S) $(JOB_OUTS)
 	cd $(dir $(abspath $<)) && $(MSCORE) -j $(notdir $<) 
 	# ls -laF ../_site/Everybody_Wants_to_Be_a_Cat/
 	# ls -laF /run/user/1001/dconf/user
-	id
 	sudo cp *.pdf *.mp3 *.svg *.mpos *.xml ../_site/Everybody_Wants_to_Be_a_Cat/
 
 .PHONY: clean
