@@ -33,6 +33,7 @@ all: $(PDFS) $(MP3S) $(JOB_OUTS)
     # 
     # CAVEAT: This does not work well for parrallel builds using make
 	cd $(dir $(abspath $<)) && $(MSCORE) -j $(notdir $<) 
+	ls -laF ../_site/Everybody_Wants_to_Be_a_Cat/
 	cp *.pdf *.mp3 *.svg *.mpos *.xml ../_site/Everybody_Wants_to_Be_a_Cat/
 
 .PHONY: clean
