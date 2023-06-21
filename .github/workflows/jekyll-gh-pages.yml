@@ -47,7 +47,7 @@ jobs:
         uses: coactions/setup-xvfb@v1
         with:
           working-directory: ./Everybody_Wants_to_Be_a_Cat 
-          run: make MSCORE="flatpak run org.musescore.MuseScore"
+          run: make MSCORE="sudo flatpak run org.musescore.MuseScore"
             
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
