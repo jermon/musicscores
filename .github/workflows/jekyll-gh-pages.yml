@@ -50,6 +50,12 @@ jobs:
           working-directory: ./Everybody_Wants_to_Be_a_Cat 
           run: make MSCORE="flatpak run org.musescore.MuseScore"
             
+      - name: Run Musescore directly
+        working-directory: ./Everybody_Wants_to_Be_a_Cat 
+        run: |
+          flatpak run org.musescore.MuseScore -o Everybody_Wants_to_Be_a_Cat.svg Everybody_Wants_to_Be_a_Cat.mscz
+
+            
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
 
