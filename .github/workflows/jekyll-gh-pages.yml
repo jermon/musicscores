@@ -54,9 +54,7 @@ jobs:
         uses: coactions/setup-xvfb@v1
         with:
           working-directory: ./Everybody_Wants_to_Be_a_Cat 
-          run: |
-            flatpak run org.musescore.MuseScore -j job.json 
-            cp *.svg *.pdf *.mp3 *.mpos *.xml ../_site/Everybody_Wants_to_Be_a_Cat/
+          run: flatpak run org.musescore.MuseScore -j job.json 
             
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
