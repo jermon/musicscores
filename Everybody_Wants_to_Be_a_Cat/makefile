@@ -25,8 +25,8 @@ all: $(PDFS) $(MP3S) $(MPOS) $(XMLS) $(JOB_OUTS)
 %.mp3: %.mscz
 	$(MSCORE) -o $@ $<
 
-%.mpos: %.mscz
-	$(MSCORE) -o $@ $<
+#%.mpos: %.mscz
+#	$(MSCORE) -o $@ $<
 
 %.xml: %.mscz
 	$(MSCORE) -o $@ $<
