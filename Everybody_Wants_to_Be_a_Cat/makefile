@@ -6,10 +6,12 @@ JOB_FILES = $(shell find . -name "*.json")
 
 PDFS = $(MSCX_FILES:.mscx=.pdf) $(MSCZ_FILES:.mscz=.pdf)
 MP3S = $(MSCX_FILES:.mscx=.mp3) $(MSCZ_FILES:.mscz=.mp3)
+MPOS = $(MSCX_FILES:.mscx=.mpos) $(MSCZ_FILES:.mscz=.mpos)
+XMLS = $(MSCX_FILES:.mscx=.xml) $(MSCZ_FILES:.mscz=.xml)
 JOB_OUTS = $(JOB_FILES:.json=.job)
 
 .PHONY: all
-all: $(PDFS) $(MP3S) $(JOB_OUTS)
+all: $(PDFS) $(MP3S) $(MPOS) $(XMLS) $(JOB_OUTS)
 
 %.pdf: %.mscx
 	$(MSCORE) -o $@ $<
@@ -21,6 +23,12 @@ all: $(PDFS) $(MP3S) $(JOB_OUTS)
 	$(MSCORE) -o $@ $<
 
 %.mp3: %.mscz
+	$(MSCORE) -o $@ $<
+
+%.mpos: %.mscz
+	$(MSCORE) -o $@ $<
+
+%.xml: %.mscz
 	$(MSCORE) -o $@ $<
 
 # mark the output of this job as secondary so make does not delete the intermediate files
