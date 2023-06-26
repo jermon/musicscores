@@ -11,7 +11,7 @@ XMLS = $(MSCX_FILES:.mscx=.xml) $(MSCZ_FILES:.mscz=.xml)
 JOB_OUTS = $(JOB_FILES:.json=.job)
 
 .PHONY: all
-all: $(PDFS) $(MP3S) $(MPOS) $(XMLS) $(JOB_OUTS)
+all: $(PDFS) $(MP3S) $(XMLS) $(JOB_OUTS)
 
 %.pdf: %.mscx
 	$(MSCORE) -o $@ $<
