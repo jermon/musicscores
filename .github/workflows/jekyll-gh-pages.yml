@@ -43,7 +43,7 @@ jobs:
         with:
           source: ./
           destination: ./_site
-          
+ 
       - name: Run Makefile to make PDFs, MP3s, etc
         env:
           MS: "flatpak run org.musescore.MuseScore"
@@ -52,12 +52,25 @@ jobs:
           outfile: _site/$name/$name
         uses: coactions/setup-xvfb@v1
         with:
-          run: |
-            $MS -o $outfile.svg  $infile.mscz
-            $MS -o $outfile.mp3  $infile.mscz
-            $MS -o $outfile.mpos $infile.mscz
-            $MS -o $outfile.xml  $infile.mscz
-          # make MSCORE="flatpak run org.musescore.MuseScore"
+          run: $MS -o $outfile.svg  $infile.mscz
+#            $MS -o $outfile.mp3  $infile.mscz
+#            $MS -o $outfile.mpos $infile.mscz
+#            $MS -o $outfile.xml  $infile.mscz
+            
+#      - name: Run Makefile to make PDFs, MP3s, etc
+#        env:
+#          MS: "flatpak run org.musescore.MuseScore"
+#          name: Everybody_Wants_to_Be_a_Cat
+#          infile: $name/$name.mscz
+#          outfile: _site/$name/$name
+#        uses: coactions/setup-xvfb@v1
+#        with:
+#          run: |
+#            $MS -o $outfile.svg  $infile.mscz
+#            $MS -o $outfile.mp3  $infile.mscz
+#            $MS -o $outfile.mpos $infile.mscz
+#            $MS -o $outfile.xml  $infile.mscz
+#          # make MSCORE="flatpak run org.musescore.MuseScore"
             
       #- name: Run Musescore directly
       #  env:
