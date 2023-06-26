@@ -44,17 +44,17 @@ jobs:
           source: ./
           destination: ./_site
           
-      - name: Run Makefile to make PDFs, MP3s, etc
-        uses: coactions/setup-xvfb@v1
-        with:
-          working-directory: ./Everybody_Wants_to_Be_a_Cat 
-          run: make MSCORE="flatpak run org.musescore.MuseScore"
+      #- name: Run Makefile to make PDFs, MP3s, etc
+      #  uses: coactions/setup-xvfb@v1
+      #  with:
+      #    working-directory: ./Everybody_Wants_to_Be_a_Cat 
+      #    run: make MSCORE="flatpak run org.musescore.MuseScore"
             
       - name: Run Musescore directly
         uses: coactions/setup-xvfb@v1
         with:
           working-directory: ./Everybody_Wants_to_Be_a_Cat 
-          run: flatpak run org.musescore.MuseScore -j job.json 
+          run: flatpak run org.musescore.MuseScore -d -j job.json 
             
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
