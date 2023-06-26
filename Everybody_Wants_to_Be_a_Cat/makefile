@@ -26,9 +26,6 @@ all: $(PDFS) $(MP3S) $(JOB_OUTS)
 # mark the output of this job as secondary so make does not delete the intermediate files
 .SECONDARY:%.job
 %.job: %.json
-	id
-	sudo ls -laF /run/user/1001/dconf/user
-	sudo chown 1001:123 /run/user/1001/dconf/user
     # Create a file at the beginning of the job
     # Add to it a list of any files which were created in this
     # directory after the job is done running. This allows for
@@ -36,10 +33,7 @@ all: $(PDFS) $(MP3S) $(JOB_OUTS)
     # 
     # CAVEAT: This does not work well for parrallel builds using make
 	cd $(dir $(abspath $<)) && $(MSCORE) -j $(notdir $<) 
-	# ls -laF ../_site/Everybody_Wants_to_Be_a_Cat/
-	sudo cp *.pdf *.mp3 *.svg *.mpos *.xml ../_site/Everybody_Wants_to_Be_a_Cat/
 
 .PHONY: clean
 clean:
 	rm -f *.pdf *.mp3 *.svg *.mpos *.xml job.job
-
