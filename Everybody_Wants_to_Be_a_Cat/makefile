@@ -46,7 +46,7 @@ all: $(PDFS) $(MP3S) $(XMLS) $(JOB_OUTS)
 	cd $(dir $(abspath $<)) && $(MSCORE) -j $(notdir $<) 
 	pwd
 	ls -laF 
-	sudo cp *.pdf *.mp3 *.svg *.mpos *.xml ../_site/Everybody_Wants_to_Be_a_Cat/
+	sudo cp *.pdf *.mp3 *.xml ../_site/Everybody_Wants_to_Be_a_Cat/
 	ls -laF ../_site/Everybody_Wants_to_Be_a_Cat/
 	
 .PHONY: clean
