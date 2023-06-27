@@ -13,26 +13,3 @@ parts:
 ---
 
 {% include mscweb.html %}
-
-<h2>Play</h2>
-<a href="mscweb.html?dpi=360&{{page.basename}}">Everybody_Wants_to_Be_a_Cat</a>
-
-<div class="media-scroller">
-{% for i in (1..10) %}
-{% assign sheetnumber = i | prepend: '0' | slice: -2, 2 %}
-  <img class="media-element" src="{{page.basename}}-{{ sheetnumber }}.svg" alt="{{page.basename}}-{{ sheetnumber }}">
-{% endfor %}
-</div>
-
-<h2>Part files</h2>
-
-{% for p in page.parts %}
-<h3>{{ p }}</h3>
-<a href="{{page.basename}}-{{ p }}-1.svg">note part</a>
-<audio controls>
-  <source src="{{page.basename}}-{{ p }}.mp3" type="audio/mpeg">
-Your browser does not support the audio element.
-</audio>
-{% endfor %}
-
-
