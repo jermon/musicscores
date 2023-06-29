@@ -20,23 +20,18 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install musescore from apt
-        run: sudo apt-get install musescore3
-
+        run: sudo apt-get install musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
+        
       - name: Test musescore version
         env: 
           QT_QPA_PLATFORM: offscreen
         run: musescore3 -v
 
-      - name: Test musescore mp3 creation
+      - name: Musescore mp3 creation
         env: 
           QT_QPA_PLATFORM: offscreen
         working-directory: Everybody_Wants_to_Be_a_Cat
-        run: |
-          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -j job.json
-#          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.mp3
-#          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.svg
-#          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.mpos
-#          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.xml
+        run: musescore3 Everybody_Wants_to_Be_a_Cat.mscz -j job.json
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
