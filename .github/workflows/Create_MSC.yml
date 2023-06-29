@@ -32,10 +32,11 @@ jobs:
           QT_QPA_PLATFORM: offscreen
         working-directory: Everybody_Wants_to_Be_a_Cat
         run: |
-          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.mp3
-          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.svg
-          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.mpos
-          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.xml
+          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -j job.json
+#          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.mp3
+#          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.svg
+#          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.mpos
+#          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.xml
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
