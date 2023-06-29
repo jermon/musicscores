@@ -28,12 +28,9 @@ jobs:
           echo "$EOF" >> "$GITHUB_OUTPUT"
 
       - name: output
-        env:
-          FILES: ${{ steps.find_job_files.outputs.JOBFILES }}
         run: |
           echo ${{ steps.find_job_files.outputs.JOBFILES }}
-          echo $FILES
-          for f in $FILES; do echo "The selected color is ${f}"; done
+          for f in ${{ steps.find_job_files.outputs.JOBFILES }}; do echo "The selected color is ${f}"; done
 
 
       - name: Install musescore from apt
