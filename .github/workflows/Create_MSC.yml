@@ -29,7 +29,7 @@ jobs:
         
       - name: Find job.json files
         id: find_job_files
-        run: echo "JOBFILES=`find . -name .json`" >> "$GITHUB_OUTPUT"
+        run: echo "JOBFILES=`find . -name *.json`" >> "$GITHUB_OUTPUT"
 
       - name: output
         env:
