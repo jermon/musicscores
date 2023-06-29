@@ -30,7 +30,7 @@ jobs:
       - name: output
         run: |
           echo "${{ steps.find_job_files.outputs.JOBFILES }}"
-          for f in ${{ steps.find_job_files.outputs.JOBFILES }}; do echo "The selected color is ${f}"; done
+          for f in ${{ steps.find_job_files.outputs.JOBFILES[@] }}; do echo "The selected color is ${f}"; done
 
       - name: Install musescore from apt
         run: sudo apt-get install musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
