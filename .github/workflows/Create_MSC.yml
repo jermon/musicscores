@@ -25,19 +25,19 @@ jobs:
       - name: Test musescore version
         env: 
           QT_QPA_PLATFORM: offscreen
-        run: musescore -v
+        run: musescore3 -v
 
       - name: Test musescore mp3 creation
         env: 
           QT_QPA_PLATFORM: offscreen
         working-directory: Everybody_Wants_to_Be_a_Cat
-        run: musescore -o Everybody_Wants_to_Be_a_Cat.mp3 Everybody_Wants_to_Be_a_Cat.mscz
+        run: musescore3 -o Everybody_Wants_to_Be_a_Cat.mp3 Everybody_Wants_to_Be_a_Cat.mscz
 
       - name: Test musescore svg creation
         env: 
           QT_QPA_PLATFORM: offscreen
         working-directory: Everybody_Wants_to_Be_a_Cat
-        run: musescore -o Everybody_Wants_to_Be_a_Cat.svg Everybody_Wants_to_Be_a_Cat.mscz
+        run: musescore3 -o Everybody_Wants_to_Be_a_Cat.svg Everybody_Wants_to_Be_a_Cat.mscz
 
 #      - name: Install musescore 3.6
 #        run: |
