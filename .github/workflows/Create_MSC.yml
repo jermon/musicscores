@@ -11,12 +11,6 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
   # Build job
   build:
@@ -27,10 +21,15 @@ jobs:
 
       - name: Install musescore 3.6
         run: |
-          sudo apt-get install -y flatpak
-          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-          sudo flatpak install -y --noninteractive flathub org.musescore.MuseScore  
-          sudo chown 1001:1001 -R /run/user/1001
+          apt-get install musescore
+          musescore -v
+
+#      - name: Install musescore 3.6
+#        run: |
+#          sudo apt-get install -y flatpak
+#          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+#          sudo flatpak install -y --noninteractive flathub org.musescore.MuseScore  
+#          sudo chown 1001:1001 -R /run/user/1001
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
