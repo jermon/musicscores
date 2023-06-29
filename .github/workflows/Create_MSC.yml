@@ -29,9 +29,8 @@ jobs:
 
       - name: output
         run: |
-          echo ${{ steps.find_job_files.outputs.JOBFILES }}
-          for f in ${{ steps.find_job_files.outputs.JOBFILES }}; do echo "The selected color is ${f}"; done
-
+          echo "${{ steps.find_job_files.outputs.JOBFILES }}"
+          for f in "${{ steps.find_job_files.outputs.JOBFILES }}"; do echo "The selected color is ${f}"; done
 
       - name: Install musescore from apt
         run: sudo apt-get install musescore3 \
@@ -39,7 +38,6 @@ jobs:
           musescore-general-soundfont \
           musescore-general-soundfont-lossless
         
-       
       - name: Musescore mp3 creation
         env: 
           QT_QPA_PLATFORM: offscreen
