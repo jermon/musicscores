@@ -21,7 +21,7 @@ jobs:
 
       - name: Install musescore 3.6
         run: |
-          apt-get install musescore
+          sudo apt-get install musescore
           musescore -v
 
 #      - name: Install musescore 3.6
