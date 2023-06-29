@@ -26,20 +26,19 @@ jobs:
         env: 
           QT_QPA_PLATFORM: offscreen
         run: musescore3 -v
+        
+      - name: Find job.json files
+        id: find_job_files
+        run: echo "JOBFILES=`find . -name .json`" >> "$GITHUB_OUTPUT"
+
+      - name: output
+        env:
+          FILES: ${{ steps.find_job_files.outputs.JOBFILES }}
+        run: for f in $FILES; do echo "The selected color is ${f}"; done
 
       - name: Musescore mp3 creation
         env: 
           QT_QPA_PLATFORM: offscreen
         working-directory: Everybody_Wants_to_Be_a_Cat
         run: musescore3 Everybody_Wants_to_Be_a_Cat.mscz -j job.json
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
- 
-
+        
