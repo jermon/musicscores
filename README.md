@@ -2,4 +2,4 @@ Sheet music in musescore format
 
 ## All incluseive
 - [Katten](Everybody_Wants_to_Be_a_Cat/index.html?dpi=360&Everybody_Wants_to_Be_a_Cat)
-- [Sakta gå vi](Sakta_vi_gå_genom_stan/index.html?dpi=360&Sakta_vi_gå_genom_stan)
+- [Sakta gå vi](Sakta_vi_gå_genom_stan/index.html?Sakta_vi_gå_genom_stan)
