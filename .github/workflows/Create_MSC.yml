@@ -19,13 +19,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install musescore 3.6
+      - name: Install musescore from apt
         run: sudo apt-get install musescore
 
-      - name: Test musescore 
+      - name: Test musescore version
         env: 
           QT_QPA_PLATFORM: offscreen
         run: musescore -v
+
+      - name: Test musescore mp3 creation
+        env: 
+          QT_QPA_PLATFORM: offscreen
+        working-directory: Everybody_Wants_to_Be_a_Cat
+        run: musescore -o Everybody_Wants_to_Be_a_Cat.mp3 Everybody_Wants_to_Be_a_Cat.mscz
+
+      - name: Test musescore svg creation
+        env: 
+          QT_QPA_PLATFORM: offscreen
+        working-directory: Everybody_Wants_to_Be_a_Cat
+        run: musescore -o Everybody_Wants_to_Be_a_Cat.svg Everybody_Wants_to_Be_a_Cat.mscz
 
 #      - name: Install musescore 3.6
 #        run: |
