@@ -34,7 +34,10 @@ jobs:
       - name: output
         env:
           FILES: ${{ steps.find_job_files.outputs.JOBFILES }}
-        run: for f in $FILES; do echo "The selected color is ${f}"; done
+        run: |
+          echo ${{ steps.find_job_files.outputs.JOBFILES }}
+          echo $FILES
+          for f in $FILES; do echo "The selected color is ${f}"; done
 
       - name: Musescore mp3 creation
         env: 
