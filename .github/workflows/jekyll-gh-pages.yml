@@ -39,13 +39,12 @@ jobs:
           QT_QPA_PLATFORM: offscreen
         working-directory: Everybody_Wants_to_Be_a_Cat
         run: musescore3 Everybody_Wants_to_Be_a_Cat.mscz -j job.json
-        
-      - name: Musescore mp3 creation
+      
+      - name: loop output
         env: 
           QT_QPA_PLATFORM: offscreen
-        working-directory: Sakta_vi_gå_genom_stan
-        run: musescore3 Sakta_vi_gå_genom_stan.mscz -j job.json
-        
+        run: for f in `find . -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
+                
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
