@@ -19,31 +19,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+#      - name: Find job.json files
+#        id: find_job_files
+#        run: |
+#          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+#          echo "JOBFILES<<$EOF" >> "$GITHUB_OUTPUT"
+#          find . -name *.json >> "$GITHUB_OUTPUT"
+#          echo "$EOF" >> "$GITHUB_OUTPUT"
+
       - name: Install musescore from apt
-        run: sudo apt-get install musescore3
+        run: sudo apt-get install musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
 
-      - name: Test musescore version
+      - name: loop output
         env: 
           QT_QPA_PLATFORM: offscreen
-        run: musescore3 -v
+        run: for f in `find . -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
 
-      - name: Test musescore mp3 creation
-        env: 
-          QT_QPA_PLATFORM: offscreen
-        working-directory: Everybody_Wants_to_Be_a_Cat
-        run: |
-          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.mp3
-          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.svg
-          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.mpos
-          musescore3 Everybody_Wants_to_Be_a_Cat.mscz -o Everybody_Wants_to_Be_a_Cat.xml
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
- 
-
+#      - name: Musescore mp3 creation
+#        env: 
+#          QT_QPA_PLATFORM: offscreen
+#        working-directory: Everybody_Wants_to_Be_a_Cat
+#        run: musescore3 Everybody_Wants_to_Be_a_Cat.mscz -j job.json
+        
