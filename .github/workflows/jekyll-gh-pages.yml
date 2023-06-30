@@ -34,12 +34,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Musescore mp3 creation
-        env: 
-          QT_QPA_PLATFORM: offscreen
-        working-directory: Everybody_Wants_to_Be_a_Cat
-        run: musescore3 Everybody_Wants_to_Be_a_Cat.mscz -j job.json
-      
       - name: loop output
         env: 
           QT_QPA_PLATFORM: offscreen
