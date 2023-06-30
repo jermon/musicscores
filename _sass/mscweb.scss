@@ -14,11 +14,24 @@
     }
 }
 
-#notation { 
-    width: 100%;
-    height: 90vh;
-    overflow: auto;
-    position: relative
+@media all and (orientention:portrait) {
+    
+    #notation { 
+        width: 90vw;
+        height: 100%;
+        overflow: auto;
+        position: relative
+    }
+}
+
+@media all and (orientention:landscape) {
+    
+    #notation { 
+        width: 100%;
+        height: 90vh;
+        overflow: auto;
+        position: relative
+    }
 }
 
 form#voice,
