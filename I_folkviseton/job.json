@@ -1,0 +1,13 @@
+[
+  {
+    "in": "I_folkviseton.mscz",
+    "out": [
+      "I_folkviseton.svg",
+      "I_folkviseton.mp3",
+      "I_folkviseton.mpos",
+      "I_folkviseton.xml",
+      [ "I_folkviseton-", ".svg" ],
+      [ "I_folkviseton-", ".mp3" ]
+    ]
+  }
+]
