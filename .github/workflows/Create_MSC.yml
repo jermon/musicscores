@@ -33,7 +33,7 @@ jobs:
       - name: loop output
         env: 
           QT_QPA_PLATFORM: offscreen
-        run: for f in `find . -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; done
+        run: for f in `find . -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
 
 #      - name: Musescore mp3 creation
 #        env: 
