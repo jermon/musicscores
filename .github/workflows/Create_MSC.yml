@@ -19,18 +19,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Find job.json files
-        id: find_job_files
-        run: |
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "JOBFILES<<$EOF" >> "$GITHUB_OUTPUT"
-          find . -name *.json >> "$GITHUB_OUTPUT"
-          echo "$EOF" >> "$GITHUB_OUTPUT"
+#      - name: Find job.json files
+#        id: find_job_files
+#        run: |
+#          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+#          echo "JOBFILES<<$EOF" >> "$GITHUB_OUTPUT"
+#          find . -name *.json >> "$GITHUB_OUTPUT"
+#          echo "$EOF" >> "$GITHUB_OUTPUT"
 
-      - name: output
-        run: |
-          echo "${{ steps.find_job_files.outputs.JOBFILES }}"
-          for f in `find . -name *.json`; do echo "-- ${f} --"; done
+      - name: loop output
+        run: for f in `find . -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; done
 
       - name: Install musescore from apt
         run: sudo apt-get install musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
