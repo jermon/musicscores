@@ -16,9 +16,14 @@
 
 #notation { 
     width: 100%;
-    height: 90vh;
     overflow: auto;
     position: relative
+}
+
+@media (orientation: landscape) {
+    #notation { 
+        height: 90vh;
+    }
 }
 
 form#voice,
