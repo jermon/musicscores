@@ -1,0 +1,13 @@
+[
+  {
+    "in": "The_59th_Street_Bridge_song.mscz",
+    "out": [
+      "The_59th_Street_Bridge_song.svg",
+      "The_59th_Street_Bridge_song.mp3",
+      "The_59th_Street_Bridge_song.mpos",
+      "The_59th_Street_Bridge_song.xml",
+      [ "The_59th_Street_Bridge_song-", ".svg" ],
+      [ "The_59th_Street_Bridge_song-", ".mp3" ]
+    ]
+  }
+]
