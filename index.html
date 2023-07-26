@@ -1,0 +1,21 @@
+---
+layout: default
+title: Sheet music in musescore format
+
+---
+<h1>{{ page.title }}</h1>
+<h2>All incluseive</h2>
+<ul>
+{% for song in site.data.songs %}
+{% assign basename = song.title | replace: " ", "_" %}
+<li><a href="{{ basename }}/index.html?{{ basename }}">{{ song.title }}</a></li>
+{% enfor %}
+</ul>
+
+## All incluseive
+- [Katten](Everybody_Wants_to_Be_a_Cat/index.html?Everybody_Wants_to_Be_a_Cat)
+- [Sakta gå vi](Sakta_vi_gå_genom_stan/index.html?Sakta_vi_gå_genom_stan)
+- [I folkviseton](I_folkviseton/index.html?I_folkviseton)
+- [Under rönn och syren](Under_rönn_och_syren/index.html?Under_rönn_och_syren)
+- [And so it goes](And_so_it_goes/index.html?And_so_it_goes)
+- [Feeling groovy](The_59th_Street_Bridge_song/index.html?The_59th_Street_Bridge_song)
