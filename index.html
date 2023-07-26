@@ -9,7 +9,7 @@ title: Sheet music in musescore format
 {% for song in site.data.songs %}
 {% assign basename = song.title | replace: " ", "_" %}
 <li><a href="{{ basename }}/index.html?{{ basename }}">{{ song.title }}</a></li>
-{% enfor %}
+{% endfor %}
 </ul>
 
 ## All incluseive
