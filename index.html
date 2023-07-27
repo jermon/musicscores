@@ -11,3 +11,10 @@ title: Sheet music in musescore format
 <li><a href="{{ basename }}/index.html?{{ basename }}">{{ song.title }}</a></li>
 {% endfor %}
 </ul>
+
+<ul>
+    {% for song in site.html_pages  %}
+    {% assign basename = song.title | replace: " ", "_" %}
+    <li><a href="{{ basename }}/index.html?{{ basename }}">{{ song.title }}</a></li>
+    {% endfor %}
+</ul>
