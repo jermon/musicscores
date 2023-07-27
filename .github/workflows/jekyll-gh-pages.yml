@@ -42,7 +42,7 @@ jobs:
       - name: Create music output files
         env: 
           QT_QPA_PLATFORM: offscreen
-        run: for f in `find ./_site -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
+        run: for f in `find . -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
