@@ -34,7 +34,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: loop output
+      - name: Create music output files
         env: 
           QT_QPA_PLATFORM: offscreen
         run: for f in `find . -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
@@ -47,6 +47,8 @@ jobs:
         with:
           source: ./
           destination: ./_site
+      
+      - run: ls -laF ./_site
  
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
