@@ -8,8 +8,11 @@ title: Sheet music in musescore format
 
 
 <ul>
+    {% assign indexpages = site.html_pages %}
     {% for song in site.html_pages  %}
-    {% assign basename = song.title | replace: " ", "_" %}
-    <li><a href="{{ basename }}/index.html?{{ basename }}">{{ song.title }}</a></li>
+        {% if song.tags contains "AllInclusive" %}
+            {% assign basename = song.title | replace: " ", "_" %}
+            <li><a href="{{ basename }}/index.html?{{ basename }}">{{ song.title }}</a></li>
+        {% endif %}
     {% endfor %}
 </ul>
