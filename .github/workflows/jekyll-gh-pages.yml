@@ -34,6 +34,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
               
+      - name: Create musescore batchfile
+        run: |
+          chmod u+x ./_bin/generate_jobfile.sh
+          ./_bin/generate_jobfile.sh
+
+      - name: Create music output files
+        env: 
+          QT_QPA_PLATFORM: offscreen
+        run: for f in `find ./_site -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
@@ -42,20 +52,6 @@ jobs:
         with:
           source: ./
           destination: ./_site
-
-      - run: |
-          chown -R runner:docker .
-          ls -laF ./_site
-      
-      - name: Create musescore batchfile
-        run: for f in `find ./_site -name index.html`; do cd `dirname ${f}`; cat index.html | sed -n "/^#~START~$/,/#~END~/p"|head -n-1|tail -n-1 > job.json; cd ..; done
-
-      - name: Create music output files
-        env: 
-          QT_QPA_PLATFORM: offscreen
-        run: for f in `find ./_site -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
-
-      - run: ls -laF ./_site
  
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
