@@ -44,7 +44,7 @@ jobs:
           destination: ./_site
 
       - name: Create musescore batchfile
-        run: for f in `find ./_site -name index.html`; do cd `dirname ${f}`; cat index.html | sed -n "/^#~START~$/,/#~END~/p|head -n-1|tail -n-1 > job.json"; cd ..; done
+        run: for f in `find ./_site -name index.html`; do cd `dirname ${f}`; cat index.html | sed -n "/^#~START~$/,/#~END~/p"|head -n-1|tail -n-1 > job.json"; cd ..; done
 
       - name: Create music output files
         env: 
