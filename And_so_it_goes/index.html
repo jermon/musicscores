@@ -12,19 +12,4 @@ parts:
 
 {% include mscweb.html %}
 
-<!-- START JOB
-  [
-  {
-    "in": "{{ basename }}.mscz",
-    "out": [
-      "{{ basename }}.pdf",
-      "{{ basename }}.svg",
-      "{{ basename }}.mp3",
-      "{{ basename }}.mpos",
-      "{{ basename }}.xml",
-      [ "{{ basename }}-", ".svg" ],
-      [ "{{ basename }}-", ".mp3" ]
-    ]
-  }
-]
-END JOB -->
+{% include jobjson.html %}
