@@ -9,12 +9,12 @@ title: Sheet music in musescore format
 {{page.categories}}
 {%endfor%}
 {% endcapture %}
-{{ category_names | split: " " | sort| uniq }}
+{% assign categories = category_names | split: " " | sort| uniq }
 
 <h1>{{ page.title }}</h1>
 
 <div id="archives">
-    {% for category in category_names %}
+    {% for category in categories %}
         <div class="archive-group">
             <h3 class="category-head">{{ category }}</h3>
             <ul>
