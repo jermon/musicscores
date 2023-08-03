@@ -5,11 +5,11 @@ title: Sheet music in musescore format
 ---
 {% assign category_pages = site.pages | where: "categories", "new" %}
 {% capture category_names %}
-{% for c in category_pages %}
-{{c.category}}
+{% for page in site.pages %}
+{{page.categories}}
 {%endfor%}
 {% endcapture %}
-{{category_names | capitalize | join: ', '}}
+{{category_names | capitalize |sort| join: ', '}}
 
 <h1>{{ page.title }}</h1>
 
