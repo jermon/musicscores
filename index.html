@@ -3,7 +3,7 @@ layout: default
 title: Sheet music in musescore format
 
 ---
-{% assign category_pages = site.pages | where: "categories", "new" %}
+
 {% capture category_names %}
 {% for page in site.pages %}
 {{page.categories}}
@@ -14,25 +14,23 @@ title: Sheet music in musescore format
 <h1>{{ page.title }}</h1>
 
 <div id="archives">
-    {% for category in site.categories %}
-    <div class="archive-group">
-        {% capture category_name %}{{ category | first }}{% endcapture %}
-        <div id="#{{ category_name | slugize }}"></div>
-        <p></p>
-    
-        <h3 class="category-head">{{ category_name }}</h3>
-        <a name="{{ category_name | slugize }}"></a>
-        {% for post in site.categories[category_name] %}
-        <article class="archive-item">
-        <h4><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></h4>
-        </article>
-        {% endfor %}
-    </div>
+    {% for category in category_names %}
+        <div class="archive-group">
+            <h3 class="category-head">{{ category }}</h3>
+            <ul>
+                {% for song in site.html_pages  %}
+                    {% if song.categories contains category %}
+                        {% assign basename = song.title | replace: " ", "_" %}
+                        <li><a href="{{ basename }}/index.html?{{ basename }}">{{ song.title }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+        </div>
     {% endfor %}
 </div>
 
 <h2>All incluseive</h2>
-
 
 <ul>
     {% assign indexpages = site.html_pages %}
