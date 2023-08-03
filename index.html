@@ -9,7 +9,7 @@ title: Sheet music in musescore format
 {{page.categories}}
 {%endfor%}
 {% endcapture %}
-{{ category_names | split: " " | sort| uniq | capitalize | join: ', ' }}
+{{ category_names | split: " " | sort| uniq }}
 
 <h1>{{ page.title }}</h1>
 
