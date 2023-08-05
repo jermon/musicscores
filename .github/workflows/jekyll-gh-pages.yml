@@ -29,7 +29,9 @@ jobs:
     steps:
     
       - name: Install musescore from apt
-        run: sudo apt-get install musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
+        run: |
+          sudo apt-get update
+          sudo apt-get install musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
         
       - name: Checkout
         uses: actions/checkout@v3
