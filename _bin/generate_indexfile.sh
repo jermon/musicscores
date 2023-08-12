@@ -5,6 +5,7 @@ basename=$1
 title=`echo $basename | tr _ " "`
 parts=`unzip -c ${basename}.mscz ${basename}.mscx | grep '<longName>' | cut -d'>' -f2 | cut -d'<' -f1 | sort -u`
 categories=`unzip -c ${basename}.mscz ${basename}.mscx |grep '<metaTag name="categories">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
+categories=${categories:=general}
 tags=`unzip -c ${basename}.mscz ${basename}.mscx |grep '<metaTag name="tags">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
 
 #define the template.
