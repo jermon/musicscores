@@ -44,10 +44,13 @@ jobs:
         # Set outputs using the command.
         run: |
           echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
-          echo "mscz=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep .mscz$ | xargs)" >> $GITHUB_OUTPUT
+
+#          echo "mscz=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep .mscz$ | xargs)" >> $GITHUB_OUTPUT
       
       - name: Debug out
-        run: echo ${{ steps.changes.outputs.all }}
+        env:
+          ALL: ${{ steps.changes.outputs.all }}
+        run: echo $ALL
          
 #      - name: Create musescore batchfile
 #        run: |
@@ -59,14 +62,14 @@ jobs:
 #          QT_QPA_PLATFORM: offscreen
 #        run: for f in `find . -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
+#      - name: Setup Pages
+#        uses: actions/configure-pages@v3
 
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
+#      - name: Build with Jekyll
+#        uses: actions/jekyll-build-pages@v1
+#        with:
+#          source: ./
+#          destination: ./_site
  
 #      - name: Upload artifact
 #        uses: actions/upload-pages-artifact@v1
