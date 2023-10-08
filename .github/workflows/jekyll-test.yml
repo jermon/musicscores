@@ -26,6 +26,9 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
+    outputs:
+      all: ${{ steps.changes.outputs.all}}
+      mscz: ${{ steps.changes.outputs.mscz }}
     steps:
     
 #      - name: Install musescore from apt
@@ -33,6 +36,15 @@ jobs:
         
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Get changed files
+        id: changes
+        # Set outputs using the command.
+        run: |
+          echo "::set-output name=all::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)"
+          echo "::set-output name=mscz::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep .mscz$ | xargs)"
               
 #      - name: Create musescore batchfile
 #        run: |
@@ -53,17 +65,27 @@ jobs:
           source: ./
           destination: ./_site
  
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+#      - name: Upload artifact
+#        uses: actions/upload-pages-artifact@v1
+  # Lint Job      
+  lint:
     runs-on: ubuntu-latest
+    # require the first job to have ran
     needs: build
+    # only run there are changed files
+    if: ${{needs.build.outputs.ts}}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+      - name: echo changed files
+        run: echo ${{needs.build.outputs.mscz}}
+        
+#  # Deployment job
+#  deploy:
+#    environment:
+#      name: github-pages
+#      url: ${{ steps.deployment.outputs.page_url }}
+#    runs-on: ubuntu-latest
+#    needs: build
+#    steps:
+#      - name: Deploy to GitHub Pages
+#        id: deployment
+#        uses: actions/deploy-pages@v2
