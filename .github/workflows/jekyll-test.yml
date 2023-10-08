@@ -43,8 +43,8 @@ jobs:
         id: changes
         # Set outputs using the command.
         run: |
-          echo "::set-output name=all::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)"
-          echo "::set-output name=mscz::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep .mscz$ | xargs)"
+          echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
+          echo "mscz=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep .mscz$ | xargs)" >> $GITHUB_OUTPUT
               
 #      - name: Create musescore batchfile
 #        run: |
@@ -67,16 +67,17 @@ jobs:
  
 #      - name: Upload artifact
 #        uses: actions/upload-pages-artifact@v1
+
   # Lint Job      
   lint:
     runs-on: ubuntu-latest
     # require the first job to have ran
     needs: build
     # only run there are changed files
-    if: ${{needs.build.outputs.ts}}
+    if: ${{needs.build.outputs.all}}
     steps:
       - name: echo changed files
-        run: echo ${{needs.build.outputs.mscz}}
+        run: echo ${{needs.build.outputs.all}}
         
 #  # Deployment job
 #  deploy:
