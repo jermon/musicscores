@@ -29,11 +29,24 @@ jobs:
     outputs:
       all: ${{ steps.changes.outputs.all}}
       mscz: ${{ steps.changes.outputs.mscz }}
+    env:
+      Artifact_name: github-pages
     steps:
     
 #      - name: Install musescore from apt
 #        run: sudo apt-get install musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
-        
+
+      - name: Check artifact existence
+        uses: xSAVIKx/artifact-exists-action@v0
+        with:
+          name: github-pages
+  
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        if: ${{ steps.check_coverage_artifact.outputs.exists }}
+        with:
+          name: github-pages
+      
       - name: Checkout
         uses: actions/checkout@v3
         with:
