@@ -39,13 +39,13 @@ jobs:
       - name: Check artifact existence
         uses: xSAVIKx/artifact-exists-action@v0
         with:
-          name: $Artifact_name
+          name: "$Artifact_name"
   
       - name: Download a single artifact
         uses: actions/download-artifact@v3
         if: ${{ steps.check_coverage_artifact.outputs.exists }}
         with:
-          name: $Artifact_name
+          name: "$Artifact_name"
       
       - name: Checkout
         uses: actions/checkout@v3
