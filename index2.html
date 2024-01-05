@@ -17,10 +17,14 @@ title: Sheet music in musescore format 2
         {% assign tags_grouped = site.pages | where: "categories", category.name | group_by: 'tags' %}
         {% for tag in tags_grouped %}
             <h5>{{ tag.name }}</h3>
+            <ul class="container float">
             {% for item in tag.items %}
             {% assign basename = item.title | replace: " ", "_" %}
-                <a href="{{ basename }}/index.html?{{ basename }}">{{ item.title }}</a>
+                <li class="item float-item">
+                    <a href="{{ basename }}/index.html?{{ basename }}">{{ item.title }}</a>
+                </li>
             {% endfor %}
+            </ul>
         {% endfor %}
     {% endfor %}
 </div>
