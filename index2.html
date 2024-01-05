@@ -13,11 +13,14 @@ title: Sheet music in musescore format 2
 <div id="archives">
 
     {% for group in pages_grouped %}
-    <h3>{{ group.name }}</h3>
-    {% for item in group.items %}
-    {% assign basename = item.title | replace: " ", "_" %}
-        <a href="{{ basename }}/index.html?{{ basename }}">{{ item.title }}</a>
+        <h3>{{ group.name }}</h3>
+        {% assign pages_grouped2 = site.pages | where: "categories","group"| group_by: 'tags' %}
+        {% for group2 in pages_grouped2 %}
+            <h5>{{ group2.name }}</h3>
+            {% for item in group2.items %}
+            {% assign basename = item.title | replace: " ", "_" %}
+                <a href="{{ basename }}/index.html?{{ basename }}">{{ item.title }}</a>
+            {% endfor %}
+        {% endfor %}
     {% endfor %}
-    {% endfor %}
-
 </div>
