@@ -1,0 +1,23 @@
+---
+layout: default
+title: Sheet music in musescore format 2
+
+---
+
+{% assign pages_grouped = site.pages | group_by: 'categories' %}
+
+<h1>{{ page.title }}</h1>
+
+
+
+<div id="archives">
+
+    {% for group in pages_grouped %}
+    <h3>{{ group.name }}</h3>
+    {% for item in group.items %}
+    {% assign basename = item.title | replace: " ", "_" %}
+        <a href="{{ basename }}/index.html?{{ basename }}">{{ item.title }}</a>
+    {% endfor %}
+    {% endfor %}
+
+</div>
