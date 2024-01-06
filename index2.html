@@ -8,8 +8,6 @@ title: Sheet music in musescore format 2
 
 <h1>{{ page.title }}</h1>
 
-
-
 <div id="archives">
 
     {% for category in categories_grouped %}
@@ -20,10 +18,10 @@ title: Sheet music in musescore format 2
             <ul class="container float">
             {% for item in tag.items %}
             {% assign basename = item.title | replace: " ", "_" %}
-                <li class="item float-item">
+                <li class="item">
                     <a href="{{ basename }}/index.html?{{ basename }}">
-                        <img src="{{ item.tumbnail }}" alt="tumbnail">
                         <p>{{ item.title }}</p>
+                        <img src="{{ item.tumbnail }}" alt="tumbnail">
                     </a>
                 </li>
             {% endfor %}
