@@ -6,7 +6,8 @@
 indexfiles=`find . -name index.html|grep -v "^./index.html"`
 for f in $indexfiles
 do
-basename=`dirname ${f} |cut -c 3-`
+#basename=`dirname ${f} |cut -c 3-`
+basename=`grep basename: ${f} |cut -d' ' -f2`
 #define the template.
 cat >`dirname ${f}`/job.json << EOF
 [
