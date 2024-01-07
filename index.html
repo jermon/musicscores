@@ -1,31 +1,31 @@
 ---
 layout: default
-title: Sheet music in musescore format
+title: Sheet music in musescore format 
 
 ---
 
-{% capture category_names %}
-{% for page in site.pages %}
-{{page.categories}}
-{%endfor%}
-{% endcapture %}
-{% assign categories = category_names | split: " " | sort| uniq %}
+{% assign categories_grouped = site.pages | group_by: 'categories' %}
 
 <h1>{{ page.title }}</h1>
 
 <div id="archives">
-    {% for category in categories %}
-        <div class="archive-group">
-            <h3 class="category-head">{{ category }}</h3>
-            <ul>
-                {% for song in site.html_pages  %}
-                    {% if song.categories contains category %}
-                        {% assign basename = song.title | replace: " ", "_" %}
-                        <li><a href="{{ basename }}/index.html?{{ basename }}">{{ song.title }}</a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
 
-        </div>
+    {% for category in categories_grouped %}
+        <h3>{{ category.name }}</h3>
+        {% assign tags_grouped = site.pages | where: "categories", category.name | group_by: 'tags' %}
+        {% for tag in tags_grouped %}
+            <h5>{{ tag.name }}</h3>
+            <ul class="container float">
+            {% for item in tag.items %}
+            {% assign basename = item.title | replace: " ", "_" %}
+                <li class="item">
+                    <a href="{{ basename }}/index.html?{{ basename }}">
+                        <p>{{ item.title }}</p>
+                        <img src="{{ item.tumbnail }}" alt="tumbnail">
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
     {% endfor %}
 </div>
