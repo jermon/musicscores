@@ -17,6 +17,7 @@ title: Sheet music in musescore format
             <h5>{{ tag.name }}</h3>
             <ul class="container float">
             {% for item in tag.items %}
+            <!-- {{ item }} -->
             {% assign basename = item.title | replace: " ", "_" %}
                 <li class="item">
                     <a href="{{ basename }}/index.html?{{ basename }}">
