@@ -23,6 +23,7 @@ do
   echo "  - " $tag
 done
 
+echo "tumbnail: "
 echo "parts:"
 
 for part in $parts 
