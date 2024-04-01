@@ -3,10 +3,11 @@
 #define parameters which are passed in.
 basename=${1%.*}
 title=`echo $basename | tr _ " "`
-parts=`unzip -c ${basename}.mscz ${basename}.mscx | grep '<longName>' | cut -d'>' -f2 | cut -d'<' -f1 | sort -u`
-categories=`unzip -c ${basename}.mscz ${basename}.mscx |grep '<metaTag name="categories">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
+parts=`unzip -c ${basename}.mscz | grep '<metaTag name="partName">' | cut -d'>' -f2 | cut -d'<' -f1 | sort -u`
+categories=`unzip -c ${basename}.mscz |grep '<metaTag name="categories">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
 categories=${categories:=general}
-tags=`unzip -c ${basename}.mscz ${basename}.mscx |grep '<metaTag name="tags">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
+tags=`unzip -c ${basename}.mscz |grep '<metaTag name="tags">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
+tumbnail=`unzip -c ${basename}.mscz |grep '<metaTag name="tumbnail">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
 
 #define the template.
 cat  << EOF
@@ -23,7 +24,7 @@ do
   echo "  - " $tag
 done
 
-echo "tumbnail: "
+echo "tumbnail: " $tumbnail
 echo "parts:"
 
 for part in $parts 
