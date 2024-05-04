@@ -7,7 +7,7 @@ parts=`unzip -c ${basename}.mscz | grep '<metaTag name="partName">' | cut -d'>' 
 categories=`unzip -c ${basename}.mscz |grep '<metaTag name="categories">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
 categories=${categories:=general}
 tags=`unzip -c ${basename}.mscz |grep '<metaTag name="tags">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
-tumbnail=`unzip -c ${basename}.mscz |grep '<metaTag name="tumbnail">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
+thumbnail=`unzip -c ${basename}.mscz |grep '<metaTag name="thumbnail">'|cut -d'>' -f2|cut -d'<' -f1|sort -u`
 
 #define the template.
 cat  << EOF
@@ -24,7 +24,7 @@ do
   echo "  - " $tag
 done
 
-echo "tumbnail: " $tumbnail
+echo "tumbnail: " $thumbnail
 echo "parts:"
 
 for part in $parts 
