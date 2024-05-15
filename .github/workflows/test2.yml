@@ -41,7 +41,7 @@ jobs:
           for f in `find . -name *.json`
           do 
             echo "::debug::Processing file ${f}"
-            ::group::${f}
+            echo "::group::${f}"
             cd `dirname ${f}`
             musescore3 ${f} -j job.json
             cd ..
