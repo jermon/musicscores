@@ -351,9 +351,9 @@ $(document).ready (function () {
 */
 
 function mscwebInit(basename) {
-
+    var parstr, ps, i, r, p, svgPageCount = 0, basename = '';
     if (basename) readUrlFiles (basename, svgPageCount);   // read all needed files
-    
+
     document.body.addEventListener ('keydown', keyDown);
     $('#aud').on ('keydown keyup', function (evt) {
         if (evt.ctrlKey || evt.shiftKey || evt.altKey || evt.metaKey) return;
