@@ -12,7 +12,7 @@ thumbnail=`unzip -c ${basename}.mscz |grep '<metaTag name="thumbnail">'|cut -d'>
 #define the template.
 cat  << EOF
 ---
-layout: default
+layout: notepage
 title: ${title}
 basename: ${basename}
 categories: ${categories}
@@ -24,17 +24,10 @@ do
   echo "  - " $tag
 done
 
-echo "tumbnail: " $thumbnail
+echo "thumbnail: " $thumbnail
 echo "parts:"
 
 for part in $parts 
 do
   echo "  - " $part
 done
-
-cat  << EOF
----
-
-{% include mscweb.html %}
-
-EOF

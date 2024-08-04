@@ -18,7 +18,7 @@ title: Sheet music in musescore format
             {% for item in tag.items %}
             <!-- {{ item }} -->
                 <li class="item">
-                    <a href="{{ item.path }}?{{ item.basename }}">
+                    <a href="{{ item.path }}">
                         <p>{{ item.title }}</p>
                         <img src="{{ item.tumbnail }}" alt="tumbnail">
                     </a>
@@ -27,16 +27,5 @@ title: Sheet music in musescore format
             </ul>
         {% endfor %}
     {% endfor %}
-
-    <h3>Extra</h3>
-    <h5>test</h3>
-        <ul class="container float">
-            <li class="item">
-                <a href="In_einem_kühlen_Grunde">
-                    <p>In einem kühlen Grunde</p>
-                    <img src="https://tile.loc.gov/image-services/iiif/service:mbrsrs:mbrsjukebox:ucsb_col_a5269_01_30631_02:ucsb_col_a5269_01_30631_02/full/pct:100/0/default.jpg" alt="tumbnail">
-                </a>
-            </li>
-        </ul>
 
 </div>
