@@ -350,8 +350,8 @@ $(document).ready (function () {
 });
 */
 
-function mscwebInit(basename) {
-    var parstr, ps, i, r, p, svgPageCount = 0, basename = '';
+function mscwebInit(basename = '') {
+    var parstr, ps, i, r, p, svgPageCount = 0;
     if (basename) readUrlFiles (basename, svgPageCount);   // read all needed files
 
     document.body.addEventListener ('keydown', keyDown);
