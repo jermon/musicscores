@@ -31,3 +31,4 @@ for part in $parts
 do
   echo "  - " $part
 done
+echo "---"
