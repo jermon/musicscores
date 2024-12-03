@@ -19,6 +19,7 @@ cat >`dirname ${f}`/job.json << EOF
       "${basename}.mp3",
       "${basename}.mpos",
       "${basename}.xml",
+      [ "${basename}-", ".pdf" ],
       [ "${basename}-", ".svg" ],
       [ "${basename}-", ".mp3" ]
     ]
