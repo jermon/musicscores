@@ -24,5 +24,14 @@
     </form>
     <a href="{{page.basename}}.pdf">PDF</a>
     <a href="{{page.basename}}.mscz">MSCZ</a>
+    <div class="dropdown">
+        <button class="dropbtn">PDF files</button>
+        <div class="dropdown-content">
+            <a href="{{page.basename}}.pdf">Tutti</a>
+            {% for p in page.parts %}
+            <a href="{{page.basename}}-{{ p }}.pdf">{{ p }}</a>
+            {% endfor %}
+        </div>
+      </div>
 </div>
 <div id="notation"></div>
