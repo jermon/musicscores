@@ -24,7 +24,7 @@ do
   echo "  - " $tag
 done
 
-echo "thumbnail: " $thumbnail
+echo "thumbnail: \""$thumbnail"\""
 echo "parts:"
 
 for part in $parts 
