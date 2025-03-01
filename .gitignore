@@ -2,3 +2,5 @@
 *.autosave
 .*
 job.job
+_site
+serve
