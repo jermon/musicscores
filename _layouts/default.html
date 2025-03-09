@@ -5,9 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <script src="{{ '/js/vendor/jquery-1.11.1.min.js' | relative_url }}"></script>
-    <script src="{{ '/js/vendor/mscweb.js' | relative_url }}"></script>
-    <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
+    <script src="{{ site.url }}{{ '/js/vendor/jquery-1.11.1.min.js' | relative_url }}"></script>
+    <script src="{{ site.url }}{{ '/js/vendor/mscweb.js' | relative_url }}"></script>
+    <link rel="stylesheet" href="{{ site.url }}{{ '/css/main.css' | relative_url }}">
+    <link rel="icon" type="image/x-icon" href="{{ site.url }}{{ '/images/favicon.ico' | relative_url }}">
   </head>
   <body>
     {{ content }}
