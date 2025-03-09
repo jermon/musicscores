@@ -25,6 +25,17 @@ songs:
   responsible: Torun 
 
 - name: Studentsången
+  url 'Studentsång/Studentsång'
   responsible: Jerker
 
 ---
+
+{% for song in page.songs %}
+  <h1>{{ song.name }}</h1>
+{% endfor %}
+
+{% for file in site.staticfiles %}
+  {{ file.path }}
+  {{ file.name }}
+  
+{% endfor %}
