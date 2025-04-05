@@ -1,7 +1,14 @@
-name: Test2
-on:
-  workflow_dispatch:
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+name: Deploy Jekyll with GitHub Pages dependencies preinstalled
 
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Runs on pushes targeting the default branch
+  #push:
+  #  branches: ["master"]
+  #  paths-ignore:
+  #    - '.github/workflows/*'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -16,37 +23,53 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    
+    outputs:
+      mymatrix: ${{ steps.dataStep.outputs.myoutput }}
+      
+    steps:
+        
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Create music output files
+        id: dataStep
+        run: echo "myoutput=`for f in \`find . -name *.json\`; do echo \`dirname ${f}\`; done|grep -v _site |cut -c3-| jq -cRs 'split("\n")'`" >> $GITHUB_OUTPUT
+
+  run-matrix:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix: ${{ fromJson(needs.setup.outputs.mymatrix) }}
+
+    steps:
+      - name: Install musescore from apt
+        run: |
+          sudo apt-get update
+          sudo apt-get install musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Create music output files
+        env: 
+          QT_QPA_PLATFORM: offscreen
+        run:  echo ${{matrix.target}}    # musescore3 ${f} -j job.json     
+        
   # Build job
   build:
     runs-on: ubuntu-latest
     steps:
     
-      - name: Install musescore from apt
-        run: |
-          sudo apt-get update
-          sudo apt-get install musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
-        
-      - name: Checkout
-        uses: actions/checkout@v4
-              
-      - name: Create musescore batchfile
-        run: |
-          chmod u+x ./_bin/generate_jobfile.sh
-          ./_bin/generate_jobfile.sh
 
+        
       - name: Create music output files
         env: 
           QT_QPA_PLATFORM: offscreen
-        run: |
-          for f in `find . -name *.json`
-          do 
-            echo "::debug::Processing file ${f}"
-            echo "::group::${f}"
-            cd `dirname ${f}`
-            musescore3 ${f} -j job.json
-            cd ..
-            echo "::endgroup::"
-          done
+        run: for f in `find . -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
