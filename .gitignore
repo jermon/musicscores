@@ -4,3 +4,9 @@
 job.job
 _site
 serve
+*.pdf
+*.mp3
+*.svg
+*.mpos
+*.xml
+job.json
