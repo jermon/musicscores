@@ -57,7 +57,7 @@ songs:
           {% elsif file.name contains "Baritone" %}
           {% elsif file.name contains "Bass" %}
           {% else %}
-              <img style="width: 100%;" src="{{file.path}}" alt="{{file.name}}">
+              <img style="width: 100%;" src="{{ site.url }}{{file.path | relative_url }}" alt="{{file.name}}">
           {% endif %}
         {% endif %}
       {% endif %}
