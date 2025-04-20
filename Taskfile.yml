@@ -1,0 +1,48 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    deps:
+      - jobfile
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  jobfile:
+    vars:
+      INDEX_FILES:
+        sh: find . -name index.html | grep -v "^./index.html" | grep -v "_site"
+    cmds: 
+      - for: { var: INDEX_FILES, as: FILE }
+        task: generate_jobfile
+        vars: 
+          FILE: "{{.FILE}}"
+
+
+  generate_jobfile:
+    cmds:
+      - echo "{{.FILE}}"
+      - cd `dirname "{{.FILE}}"`; ../_bin/generate_1_jobfile.sh `basename "{{.FILE}}"` 
+    sources: 
+      - index.html
+    generates: 
+      - job.json
+
+
+
+#  pictures:
+#    cmds: 
+#      - musescore3 ${f} -j job.json
+#    sources: 
+#      - ./**/*.mscz
+#    genrates:
+#      - ./*.pdf
+#      - ./*.svg
+#      - ./*.mp3
+#      - ./*.mpos
+#      - ./*.xml
