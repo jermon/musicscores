@@ -42,16 +42,17 @@ songs:
   basename: Nu_groenskar_det
   responsible: Torun
 
-
+voice: Soprano
 ---
 
 {% for song in page.songs %}
   {% for file in site.static_files %}
-    {% if file.path contains ".svg" %}
+    {% if file.extname == ".svg" %}
       {% if file.path contains song.dir %}
         {% if file.path contains song.basename %}
 
           {% if    file.name contains "Soprano" %}
+          
           {% elsif file.name contains "Alto" %}
           {% elsif file.name contains "Tenor" %}  
           {% elsif file.name contains "Baritone" %}
