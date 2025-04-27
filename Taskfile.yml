@@ -23,26 +23,28 @@ tasks:
         vars: 
           FILE: "{{.FILE}}"
 
+      
+
 
   generate_jobfile:
     cmds:
       - echo "{{.FILE}}"
       - cd `dirname "{{.FILE}}"`; ../_bin/generate_1_jobfile.sh `basename "{{.FILE}}"` 
+      - cd `dirname "{{.FILE}}"`; musescore3 ${f} -j job.json
     sources: 
       - index.html
     generates: 
       - job.json
 
 
-
-#  pictures:
-#    cmds: 
-#      - musescore3 ${f} -j job.json
-#    sources: 
-#      - ./**/*.mscz
-#    genrates:
-#      - ./*.pdf
-#      - ./*.svg
-#      - ./*.mp3
-#      - ./*.mpos
-#      - ./*.xml
+  pictures:
+    cmds: 
+      - cd `dirname "{{.FILE}}"`; musescore3 ${f} -j job.json
+    sources: 
+      - ./**/*.mscz
+    genrates:
+      - ./*.pdf
+      - ./*.svg
+      - ./*.mp3
+      - ./*.mpos
+      - ./*.xml

@@ -56,11 +56,11 @@ songs:
   {% if song.voice %}
     {% assign song_string = song_string | append: '-' | append: song.voice %}
   {% endif %}
-  {{ song_string }}
+
   {% for file in site.static_files %}
     {% if file.extname == ".svg" %}
       {% if file.path contains song_string %}
-        {{ file.path }}
+
         <img style="width: 100%;" src="{{ site.url }}{{file.path | relative_url }}" alt="{{file.name}}">
       {% endif %}
     {% endif %}
