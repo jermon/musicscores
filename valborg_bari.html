@@ -1,0 +1,68 @@
+---
+layout: default
+title: Valborgskonsert
+songs:
+- name: Vintern ra
+  dir : Längtan_till_landet
+  basename: Längtan_till_landet2
+  responsible: Elisabeth
+  voice: Bass
+
+- name: Glad sås
+  dir: 'Vårsång-Glad_såsom_fågen'
+  basename: Vårsång2
+  responsible: Ingrid
+  voice: Baritone
+
+- name: Vårvindar friska
+  dir: Vårvindar_friska
+  basename: Vårvindar_Friska2
+  responsible: Elisabeth
+  voice: Bass
+
+- name: Vårliga vindar
+  dir: Vårsång-Vårliga_vindar_draga
+  basename: Vårsång
+  responsible: Jerker
+  voice: Bass
+
+- name: Under rönn och syrén
+  dir: Under_rönn_och_syren
+  basename: Under_rönn_och_syren
+  responsible: Anna
+  voice: Bass
+
+- name: Sköna maj
+  dir: Sköna_maj
+  basename: Sköna_maj2
+  responsible: Malin
+  voice: Bass
+
+- name: Uti vår hage
+  dir: Uti_var_hage
+  basename: Uti_var_hage
+  responsible: Torun
+  voice: Baritone
+
+- name: Nu grönskar det
+  dir: Nu_gronskar_det
+  basename: Nu_groenskar_det
+  responsible: Torun
+  voice: Bass
+---
+
+{% for song in page.songs %}
+  {% assign song_string = song.dir | append: '/' | append: song.basename %}
+  {% if song.voice %}
+    {% assign song_string = song_string | append: '-' | append: song.voice %}
+  {% endif %}
+  {{ song_string }}
+  {% for file in site.static_files %}
+    {% if file.extname == ".svg" %}
+      {% if file.path contains song_string %}
+        {{ file.path }}
+        <img style="width: 100%;" src="{{ site.url }}{{file.path | relative_url }}" alt="{{file.name}}">
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
