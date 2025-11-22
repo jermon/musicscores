@@ -27,6 +27,11 @@ all: $(PDFS) $(MP3S) $(JOB_OUTS)
 	@echo "Processing $< ..."
 	$(MSCORE) -o $@ $<
 
+# Generate MusicXML (.xml) from .mscz files
+%.xml: %.mscz
+	@echo "Exporting MusicXML from $< ..."
+	$(MSCORE) -o $@ $<
+
 # mark the output of this job as secondary so make does not delete the intermediate files
 .SECONDARY:%.job
 %.job: %.json

@@ -30,7 +30,7 @@ var theSvgs,    // array of all svg pictures (dom trees) on the page
                 blib: 0, stflns: 5, pw: 0, lsp: 0, speed: 1 }; // URL options
 
 function prepareSvgs (page) {
-    theSvgs = $('#notation').find ('svg').get ();   // get all svg's in the notation area
+    theSvgs = Array.from(document.getElementById('notation').getElementsByTagName('svg'));
     theSvgs.forEach (function (svg) {
         svg.setAttribute ('height', '100%');         // scale svg to full page height
         svg.removeAttribute ('width');             // width should not be set
@@ -102,8 +102,7 @@ function putMark (mnum, noScroll) { // put the cursor on measure mnum
     n = document.getElementById ('notation');   // now handle scrolling
     nr = n.getBoundingClientRect ();            // position notation area relative to viewport
     br = rMark.getBoundingClientRect ();        // same of the cursor rectangle
-    if (br.bottom > nr.bottom - scrollMargin)   // bottom cursor below bottom notation area (- margin !!)
-        n.scrollTop += br.top - nr.top - scrollMargin;
+    if (br.bottom > nr.bottom - scrollMargin)   // bottom cursor below bottom notation area (- margin !!)n.scrollTop += br.top - nr.top - scrollMargin;
     if (br.top < nr.top)                        // top cursor above top notation area
         n.scrollTop += br.top - nr.top - scrollMargin;
 }
@@ -114,15 +113,15 @@ function readSvg (svg) {
 }
 
 function readMpos (xmltxt) {
-    var xmldom = $.parseXML (xmltxt);   // dom tree
-    var $xml = $(xmldom);               // make a jquery element of the dom tree
-    var es = $xml.find ('score>elements>element');  // get all measure recangles
+    var parser = new DOMParser();
+    var xmldom = parser.parseFromString(xmltxt, "text/xml");
+    var es = xmldom.querySelectorAll('score>elements>element');
     var npages = 0;                     // number of svg pages
     var scale = options.dpi / 300;
     var xprev = Infinity;               // x-coor of previous measure
     var nline = 0;                      // count score lines
     for (var i = 0; i < es.length; ++i) {
-        var e = es [i];
+        var e = es[i];
         var mrect = {                   // extract data for each measure rectangle
             x: e.getAttribute ('x') / scale,
             y: e.getAttribute ('y') / scale,
@@ -139,10 +138,10 @@ function readMpos (xmltxt) {
         msrRects.push (mrect);          // store all rectangles
         if (mrect.page > npages) npages = mrect.page;   // hightest page -> number of svg files needed
     }
-    es = $xml.find ('score>events>event');  // get all measure starting times
+    es = xmldom.querySelectorAll('score>events>event');
     for (i = 0; i < es.length; ++i) {
-        maten.push (es [i].getAttribute ('elid'));      // index into msrRects for each time point
-        times.push (es [i].getAttribute ('position'));  // milliseconds for each starting time
+        maten.push (es[i].getAttribute ('elid'));      // index into msrRects for each time point
+        times.push (es[i].getAttribute ('position'));  // milliseconds for each starting time
     }
     times.push (Infinity);  // barrier for searching later on
     for (i in options.stops) {  // lag correction for measures in option.stops
@@ -152,10 +151,10 @@ function readMpos (xmltxt) {
 }
 
 function readMusicXML (xmltxt) {
-    var xmldom = $.parseXML (xmltxt);   // dom tree
-    var $xml = $(xmldom);               // make a jquery element of the dom tree
-    xmlWidth = $xml.find ('page-width').text ();
-    xmlMm = $xml.find ('millimeters').text ();
+    var parser = new DOMParser();
+    var xmldom = parser.parseFromString(xmltxt, "text/xml");
+    xmlWidth = xmldom.querySelector('page-width').textContent;
+    xmlMm = xmldom.querySelector('millimeters').textContent;
 }
 
 function scoreClick (evt) {
@@ -282,10 +281,17 @@ function readUrlFiles (basename, svgPageCount) {   // read all needed files with
         if (ext == '.svg') {
             readSvg (txt);
             prepareSvgs (page);
-            if (options.counter) $('#comp').html (npages - page);   // update downcounter during load
+            if (options.counter) {
+                document.getElementById('comp').innerHTML = (npages - page).toString();
+            }
             page += 1;                      // see if we got all pages, else read next svg
             if (npages >= page) getFile (basename + '-' + padNum (page), '.svg');
-            else $('#comp').remove ();      // remove downcounter after loading
+            else {
+                const comp = document.getElementById('comp');
+                if (comp) {
+                    comp.remove();
+                }
+            }
         } else if (ext == '.mpos') {
             npages = readMpos (txt);
             if (svgPageCount > npages) npages = svgPageCount;
@@ -296,17 +302,28 @@ function readUrlFiles (basename, svgPageCount) {   // read all needed files with
             getFile (basename, '.mpos');    // continue reading the mpos file
         }
     }
-    function getFile (name, ext) {          // use jquery $.get (wrapper for XMLHTTPrequest)
-        $.get (name + ext, '', null, 'text').done (function (data, status) {
-            parseFile (ext, data);
-        }).fail (function (jqxhr, textStatus, errorThrown) {
-            if (jqxhr.status != 0)          // XHR response status code > 0 (e.g. 404)
-                alert ('cannot load file: ' + name + ext + '\nstatus: ' + jqxhr.status);
-        });
+    function getFile (name, ext) {
+        fetch(name + ext)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('cannot load file: ' + name + ext + '\nstatus: ' + response.status);
+                }
+                return response.text();
+            })
+            .then(data => {
+                parseFile(ext, data);
+            })
+            .catch(error => {
+                alert(error.message);
+            });
     }
-    $('#notation').html ('<div id="comp"></div>');  // add temporary page downcounter
-    $('#comp').css ({ position:"absolute", "z-index":9, right:"0px" }); // overlay in top-right corner
-    // we read all files in sequence
+    const notation = document.getElementById('notation');
+    notation.innerHTML = '<div id="comp"></div>';
+    const comp = document.getElementById('comp');
+    comp.style.position = "absolute";
+    comp.style.zIndex = 9;
+    comp.style.right = "0px";
+
     if (options.lsp && options.pw) getFile (basename, '.mpos')   // skip xml file
     else getFile (basename, '.xml')  // start with reading MusicXml file
     elmed = document.getElementById ('aud');        // get the audio element
@@ -317,47 +334,20 @@ function readUrlFiles (basename, svgPageCount) {   // read all needed files with
     spdElm.addEventListener ('change', function () { setSpeed (1) });
     setSpeed (1);
 }
-/*
-$(document).ready (function () {
-    var parstr, ps, i, r, p, svgPageCount = 0, basename = '';
-    parstr = window.location.href.split ('?');  // parse the URL for "basename" and parameters
-    if (parstr.length > 1) {
-        ps = parstr [1].split ('&');
-        for (i = 0; i < ps.length;name i++) {
-            p = ps [i];
-            if      (r = p.match (/npages=([\d]+)/)) svgPageCount = parseInt (r[1]);
-            else if (r = p.match (/dpi=([\d]+)/)) options.dpi = parseInt (r[1]);
-            else if (p == 'noScroll') options.noScroll = 1;
-            else if (r = p.match (/stops=([\d,]+)/))
-                [...r[1].matchAll (/([\d]+),?/g)].forEach (x => options.stops [x [1]] = 1);
-            else if (p == 'stopOnce') options.stopOnce = 1;
-            else if (r = p.match (/blib=([+-]?[\d]+)/)) options.blib = parseInt (r[1]);
-            else if (p == 'counter') options.counter = 1;
-            else if (r = p.match (/lsp=([\d.]+)/)) options.lsp = parseFloat (r[1]);
-            else if (r = p.match (/pw=([\d.]+)/)) options.pw = parseFloat (r[1]);
-            else if (r = p.match (/stflns=([\d])/)) options.stflns = parseInt (r[1]);
-            else if (r = p.match (/speed=([\d.]+)/)) options.speed = parseFloat (r[1]);
-            else if (r = p.match (/[^=]+/)) basename = p;
-        }
-        if (basename) readUrlFiles (basename, svgPageCount);   // read all needed files
-    }
-    document.body.addEventListener ('keydown', keyDown);
-    $('#aud').on ('keydown keyup', function (evt) {
-        if (evt.ctrlKey || evt.shiftKey || evt.altKey || evt.metaKey) return;
-        evt.preventDefault ();  // prevent default key handling which conflicts with our keyDown
-    });
-    $('#notation').scrollTop (0);   // Firefox does not reset the scrollTop when reloading the document
-});
-*/
 
 function mscwebInit(basename = '') {
     var svgPageCount = 0;
     if (basename) readUrlFiles (basename, svgPageCount);   // read all needed files
 
     document.body.addEventListener ('keydown', keyDown);
-    $('#aud').on ('keydown keyup', function (evt) {
+    const aud = document.getElementById('aud');
+    aud.addEventListener('keydown', (evt) => {
         if (evt.ctrlKey || evt.shiftKey || evt.altKey || evt.metaKey) return;
-        evt.preventDefault ();  // prevent default key handling which conflicts with our keyDown
+        evt.preventDefault ();
     });
-    $('#notation').scrollTop (0);   // Firefox does not reset the scrollTop when reloading the document
+    aud.addEventListener('keyup', (evt) => {
+        if (evt.ctrlKey || evt.shiftKey || evt.altKey || evt.metaKey) return;
+        evt.preventDefault ();
+    });
+    document.getElementById('notation').scrollTop = 0;
 }
