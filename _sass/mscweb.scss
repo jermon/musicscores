@@ -38,3 +38,29 @@ form#voice,
 #speed { 
     width: 4em; 
 }
+
+.song-metadata {
+    display: flex;
+    gap: 20px;
+    margin: 10px 0 20px 0;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-left: 4px solid #007bff;
+    font-size: 0.95em;
+    flex-wrap: wrap;
+
+    span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .pitch, .time, .tempo {
+        color: #333;
+    }
+
+    strong {
+        font-weight: 600;
+        color: #555;
+    }
+}

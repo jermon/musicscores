@@ -3,53 +3,82 @@ layout: default
 title: Valborgskonsert Baritone
 songs:
 - name: Vintern ra
-  dir : Längtan_till_landet
+  dir: Längtan_till_landet
   basename: Längtan_till_landet2
   voice: Bass
-
+  pitch: F
+  time: 4/4
+  tempo: '100'
+  
 - name: Glad sås
-  dir: 'Vårsång-Glad_såsom_fågen'
+  dir: Vårsång-Glad_såsom_fågen
   basename: Vårsång2
   voice: Baritone
-
+  pitch: F
+  time: 4/4
+  tempo: '90'
 - name: Vårvindar friska
   dir: Vårvindar_friska
   basename: Vårvindar_Friska2
   voice: Bass
-
+  pitch: F#
+  time: 3/4
+  tempo: '50'
 - name: Vårliga vindar
   dir: Vårsång-Vårliga_vindar_draga
   basename: Vårsång
   voice: Bass
-
+  pitch: B
+  time: 6/8
+  tempo: '110'
 - name: Under rönn och syrén
   dir: Under_rönn_och_syren
   basename: Under_rönn_och_syren
   voice: Bass
-
+  pitch: C
+  time: 6/8
+  tempo: '120'
 - name: Sköna maj
   dir: Sköna_maj
   basename: Sköna_maj2
   voice: Bass
-
+  pitch: D
+  time: 4/4
+  tempo: '100'
 - name: Uti vår hage
   dir: Uti_var_hage
   basename: Uti_var_hage
   voice: Baritone
-
+  pitch: F
+  time: 3/4
+  tempo: '110'
 - name: Nu grönskar det
   dir: Nu_gronskar_det
   basename: Nu_groenskar_det
   voice: Bass
-
-- name: Fjärliln vingad 
+  pitch: F
+  time: 2/2
+  tempo: ''
+- name: Fjärliln vingad
   dir: Fjäriln_Vingad
   basename: Nu_groenskar_det
   voice: Bass
-
 ---
 
 {% for song in page.songs %}
+  <h2>{{ song.name }}</h2>
+  <div class="song-metadata">
+    {% if song.pitch %}
+      <span class="pitch"><strong>Key:</strong> {{ song.pitch }}</span>
+    {% endif %}
+    {% if song.time %}
+      <span class="time"><strong>Time:</strong> {{ song.time }}</span>
+    {% endif %}
+    {% if song.tempo %}
+      <span class="tempo"><strong>Tempo:</strong> {{ song.tempo }} BPM</span>
+    {% endif %}
+  </div>
+
   {% assign song_string = song.dir | append: '/' | append: song.basename %}
   {% if song.voice %}
     {% assign song_string = song_string | append: '-' | append: song.voice %}
