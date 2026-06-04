@@ -1,0 +1,123 @@
+---
+layout: default
+title: Sommerkonsert - Directory
+songs:
+- name: Nu grönskar det
+  pitch: F
+  time: 2/2
+  tempo: 80
+
+- name: Fjäriln vingad
+  pitch: G
+  time: 4/4
+  tempo: 80
+
+- name: Jungfrun
+  pitch: F
+  time: 3/4
+  tempo: 66
+
+- name: Kvartett- Sunny side of the street
+
+- name: Sakta vi gå
+  pitch: C#
+  time: 4/4
+  tempo: 60
+
+- name: Shut up
+  pitch: Db
+  time: 4/4
+  tempo: 130
+
+- name: Trio- The rose
+
+- name: Allsång- En kväll i juni
+
+- name: Paus
+
+- name: Missarna
+  pitch: Bb
+  time: 4/4
+  tempo: 110
+
+- name: My och Isabel- Faller
+
+- name: Allsång- Oh boy
+
+- name: Big bad world
+  pitch: F#
+  time: 4/4
+  tempo: 100
+
+- name: Under rönn och syren
+  pitch: C
+  time: 6/8
+  tempo: 120
+
+- name: Try everything
+  pitch: Db
+  time: 4/4
+  tempo: 100
+
+- name: X-tra nummer- Uptown funk
+  pitch: F
+  time: 4/4
+  tempo: 100
+
+---
+
+<table class="songs-directory">
+  <thead>
+    <tr>
+      <th>Song</th>
+      <th>Key</th>
+      <th>Time</th>
+      <th>Tempo</th>
+      <th>Metronome</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for song in page.songs %}
+      <tr>
+        <td>{{ song.name }}</td>
+        <td>{{ song.pitch }}</td>
+        <td>{{ song.time }}</td>
+        <td>{{ song.tempo }}</td>
+        <td>
+          {% if song.pitch and song.tempo %}
+            {% include metronome.html tone=song.pitch tempo=song.tempo %}
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<style>
+.songs-directory {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+.songs-directory thead {
+  background-color: #f2f2f2;
+}
+
+.songs-directory th {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+  font-weight: bold;
+}
+
+.songs-directory td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.songs-directory tr:hover {
+  background-color: #f5f5f5;
+}
+</style>

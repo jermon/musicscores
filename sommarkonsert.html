@@ -1,0 +1,129 @@
+---
+layout: default
+title: Sommerkonsert
+songs:
+- name: Nu grönskar det
+  dir: Nu_gronskar_det
+  basename: Nu_groenskar_det
+  voice: Bass
+  pitch: F
+  time: 2/2
+  tempo: '80'
+
+- name: Fjäriln vingad
+  dir: Fjäriln_Vingad
+  basename: Fjäriln_Vingad
+  voice: Bass
+  pitch: G
+  time: 4/4
+  tempo: '80'
+
+- name: Jungfrun
+  dir: Jungfrun
+  basename: Jungfrun
+  voice: Bass
+  pitch: G
+  time: 3/4
+  tempo: '120'
+
+- name: Kvartett- Sunny side of the street
+
+- name: Sakta vi gå
+  dir: Sakta_vi_gå_genom_stan
+  basename: Sakta_vi_gaa_genom_stan
+  voice: Bass
+  pitch: D
+  time: 4/4
+  tempo: '60'
+
+- name: Shut up
+  dir: Shut_up_and_dance
+  basename: Shut_up_and_dance
+  voice: Bass
+  pitch: D
+  time: 4/4
+  tempo: '130'
+
+- name: Trio- The rose
+
+- name: Allsång- En kväll i juni
+
+- name: Paus
+
+- name: Missarna
+  dir: Missarna
+  basename: Missarna
+  voice: Bass
+  pitch: Bb
+  time: 4/4
+  tempo: '110'
+
+- name: My och Isabel- Faller
+
+- name: Allsång- Oh boy
+
+- name: Big bad world
+  dir: Big_bad_world
+  basename: Big_bad_world
+  voice: Bass
+  pitch: D
+  time: 4/4
+  tempo: '100'
+
+- name: Under rönn och syren
+  dir: Under_rönn_och_syren
+  basename: Under_rönn_och_syren
+  voice: Bass
+  pitch: C
+  time: 6/8
+  tempo: '120'
+
+- name: Try everything
+  dir: Try_Everything
+  basename: Try_Everything
+  voice: Bass
+  pitch: G
+  time: 4/4
+  tempo: '100'
+
+- name: X-tra nummer- Uptown funk
+  dir: Uptown_Funk
+  basename: Uptown_Funk
+  voice: Bass
+  pitch: F
+  time: 4/4
+  tempo: '100'
+
+---
+
+{% for song in page.songs %}
+  {% if song.dir %}
+    <h2>{{ song.name }}</h2>
+    <div class="song-metadata">
+      {% if song.pitch %}
+        <span class="pitch"><strong>Key:</strong> {{ song.pitch }}</span>
+      {% endif %}
+      {% if song.time %}
+        <span class="time"><strong>Time:</strong> {{ song.time }}</span>
+      {% endif %}
+      {% if song.tempo %}
+        <span class="tempo"><strong>Tempo:</strong> {{ song.tempo }} BPM</span>
+      {% endif %}
+    </div>
+
+    {% assign song_string = song.dir | append: '/' | append: song.basename %}
+    {% if song.voice %}
+      {% assign song_string = song_string | append: '-' | append: song.voice %}
+    {% endif %}
+
+    {% for file in site.static_files %}
+      {% if file.extname == ".svg" %}
+        {% if file.path contains song_string %}
+          <img style="width: 100%;" src="{{ site.url }}{{file.path | relative_url }}" alt="{{file.name}}">
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <h2>{{ song.name }}</h2>
+  {% endif %}
+{% endfor %}

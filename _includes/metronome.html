@@ -1,0 +1,152 @@
+{% assign tone = include.tone | default: "A4" %}
+{% assign tempo = include.tempo | default: 120 %}
+
+<div class="metronome-widget"
+     data-tone="{{ tone }}"
+     data-tempo="{{ tempo }}">
+  <button class="metronome-toggle">
+    ▶ Start {{ tone }} @ {{ tempo }} BPM
+  </button>
+</div>
+
+<script>
+(function() {
+  const noteMap = {
+    'C': 0, 'C#': 1, 'Db': 1,
+    'D': 2, 'D#': 3, 'Eb': 3,
+    'E': 4,
+    'F': 5, 'F#': 6, 'Gb': 6,
+    'G': 7, 'G#': 8, 'Ab': 8,
+    'A': 9, 'A#': 10, 'Bb': 10,
+    'B': 11
+  };
+
+  function noteToFrequency(note) {
+    if (/^\d+(\.\d+)?$/.test(note)) {
+      return parseFloat(note);
+    }
+
+    // Try matching note with octave (e.g., "F4")
+    let match = note.match(/^([A-G][b#]?)(\d)$/);
+    let pitch, octave;
+    
+    if (match) {
+      pitch = match[1];
+      octave = parseInt(match[2], 10);
+    } else {
+      // Try matching note without octave (e.g., "F"), default to octave 3
+      match = note.match(/^([A-G][b#]?)$/);
+      if (!match) return 440;
+      pitch = match[1];
+      octave = 3; // Default to octave 3 for bass
+    }
+
+    const semitones =
+      (octave - 4) * 12 +
+      noteMap[pitch] -
+      noteMap['A'];
+
+    return 440 * Math.pow(2, semitones / 12);
+  }
+
+  document.querySelectorAll('.metronome-widget').forEach(widget => {
+    if (widget.dataset.initialized) return;
+    widget.dataset.initialized = true;
+
+    const button = widget.querySelector('.metronome-toggle');
+
+    const toneFreq = noteToFrequency(widget.dataset.tone);
+    const tempo = parseFloat(widget.dataset.tempo);
+
+    let audioContext = null;
+    let toneOscillator = null;
+    let metronomeTimer = null;
+
+    function clickSound() {
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      osc.type = 'square';
+      osc.frequency.value = 1200;
+
+      gain.gain.setValueAtTime(0.2, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        audioContext.currentTime + 0.03
+      );
+
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+
+      osc.start();
+      osc.stop(audioContext.currentTime + 0.03);
+    }
+
+    function start() {
+      audioContext = new (window.AudioContext ||
+                          window.webkitAudioContext)();
+
+      toneOscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      toneOscillator.type = 'sine';
+      toneOscillator.frequency.value = toneFreq;
+
+      gain.gain.value = 0.08;
+
+      toneOscillator.connect(gain);
+      gain.connect(audioContext.destination);
+
+      toneOscillator.start();
+
+      clickSound();
+
+      metronomeTimer = setInterval(
+        clickSound,
+        (60 / tempo) * 1000
+      );
+
+      button.textContent = '■ Stop';
+    }
+
+    function stop() {
+      clearInterval(metronomeTimer);
+
+      if (toneOscillator) {
+        toneOscillator.stop();
+        toneOscillator.disconnect();
+      }
+
+      if (audioContext) {
+        audioContext.close();
+      }
+
+      toneOscillator = null;
+      audioContext = null;
+
+      button.textContent =
+        `▶ Start ${widget.dataset.tone} @ ${tempo} BPM`;
+    }
+
+    button.addEventListener('click', () => {
+      if (audioContext) {
+        stop();
+      } else {
+        start();
+      }
+    });
+  });
+})();
+</script>
+
+<style>
+.metronome-widget {
+  margin: 1rem 0;
+}
+
+.metronome-toggle {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+</style>
