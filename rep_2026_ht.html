@@ -1,0 +1,80 @@
+---
+layout: default
+title: Rep 2026 HT
+songs:
+- name: Missarna
+  dir: Missarna
+  basename: Missarna
+
+- name: Big Bad World
+  dir: Big_bad_world
+  basename: Big_bad_world
+
+- name: Try Everything
+  dir: Try_Everything
+  basename: Try_Everything
+
+- name: And So It Goes
+  dir: And_so_it_goes
+  basename: And_so_it_goes
+
+- name: Uptown Funk
+  dir: Uptown_Funk
+  basename: Uptown_Funk
+
+- name: Shut Up and Dance
+  dir: Shut_up_and_dance
+  basename: Shut_up_and_dance
+
+- name: Irländska medley
+  dir: Irish_medley
+  basename: Irish_medley_long
+
+- name: Everybody Wants to Be a Cat
+  dir: Everybody_Wants_to_Be_a_Cat
+  basename: Everybody_Wants_to_Be_a_Cat
+
+- name: Words
+  dir: Words
+  basename: Words
+
+- name: Everybody
+  dir: Everybody
+  basename: Everybody
+
+- name: Smooth Operator
+  dir: Smooth_Operator
+  basename: Smooth_Operator
+---
+
+{% for song in page.songs %}
+  {% if song.dir %}
+    <h2>{{ song.name }}</h2>
+    <div class="song-metadata">
+      {% if song.pitch %}
+        <span class="pitch"><strong>Key:</strong> {{ song.pitch }}</span>
+      {% endif %}
+      {% if song.time %}
+        <span class="time"><strong>Time:</strong> {{ song.time }}</span>
+      {% endif %}
+      {% if song.tempo %}
+        <span class="tempo"><strong>Tempo:</strong> {{ song.tempo }} BPM</span>
+      {% endif %}
+    </div>
+
+    {% assign song_string = song.dir | append: '/' | append: song.basename %}
+    {% if song.voice %}
+      {% assign song_string = song_string | append: '-' | append: song.voice %}
+    {% endif %}
+
+    {% for file in site.static_files %}
+      {% if file.extname == ".svg" %}
+        {% if file.path contains song_string %}
+          <img style="width: 100%;" src="{{ site.url }}{{file.path | relative_url }}" alt="{{file.name}}">
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <h2>{{ song.name }}</h2>
+  {% endif %}
+{% endfor %}
