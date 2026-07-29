@@ -11,9 +11,10 @@ set -euo pipefail
 # --- Requirements ---
 # - unzip
 # - xmlstarlet
+# - python3
 
 # --- Check for dependencies ---
-for cmd in unzip xmlstarlet; do
+for cmd in unzip xmlstarlet python3; do
     if ! command -v "$cmd" &> /dev/null; then
         echo "Error: Required command '$cmd' is not installed." >&2
         exit 1
@@ -34,8 +35,8 @@ if [ ! -f "$mscz_file" ]; then
 fi
 
 # --- Metadata extraction ---
-basename="${mscz_file%.*}"
-title=$(basename "$basename" | tr '_' ' ')
+basename=$(basename "${mscz_file%.*}")
+title=$(printf '%s' "$basename" | tr '_' ' ')
 
 # Unzip the .mscz file in memory and pipe the .mscx content to xmlstarlet
 # The '*.mscx' pattern must be quoted to prevent shell expansion.
@@ -73,6 +74,74 @@ tags=$(echo "$mscx_content" | xmlstarlet sel -t -v "//metaTag[@name='tags']" -n 
 
 thumbnail=$(echo "$mscx_content" | xmlstarlet sel -t -v "//metaTag[@name='thumbnail']" || true)
 
+# Extract score-level metadata from the embedded .mscx XML.
+pitch=$(python3 -c '
+import sys
+import xml.etree.ElementTree as ET
+
+root = ET.fromstring(sys.stdin.read())
+accidental = 0
+for key_sig in root.findall(".//KeySig"):
+    acc = key_sig.findtext("accidental")
+    if acc is not None:
+        accidental = int(acc)
+        break
+
+key_map = {
+    0: "C",
+    1: "G",
+    2: "D",
+    3: "A",
+    4: "E",
+    5: "B",
+    6: "F#",
+    7: "C#",
+    -1: "F",
+    -2: "Bb",
+    -3: "Eb",
+    -4: "Ab",
+    -5: "Db",
+    -6: "Gb",
+    -7: "Cb",
+}
+print(key_map.get(accidental, accidental))
+' <<< "$mscx_content")
+
+time=$(python3 -c '
+import sys
+import xml.etree.ElementTree as ET
+
+root = ET.fromstring(sys.stdin.read())
+for time_sig in root.findall(".//TimeSig"):
+    sig_n = time_sig.findtext("sigN")
+    sig_d = time_sig.findtext("sigD")
+    if sig_n is not None and sig_d is not None:
+        print(f"{sig_n}/{sig_d}")
+        break
+' <<< "$mscx_content")
+
+tempo=$(python3 -c '
+import sys
+import re
+import xml.etree.ElementTree as ET
+
+root = ET.fromstring(sys.stdin.read())
+for tempo in root.findall(".//Tempo"):
+    text = tempo.findtext("text") or ""
+    match = re.search(r"=\s*([0-9]+(?:\.[0-9]+)?)", text)
+    if match:
+        print(match.group(1))
+        break
+    tempo_value = tempo.findtext("tempo")
+    if tempo_value:
+        try:
+            bpm = round(float(tempo_value) * 60)
+            print(int(bpm))
+        except ValueError:
+            print(tempo_value)
+        break
+' <<< "$mscx_content")
+
 
 # --- Template generation ---
 cat << EOF
@@ -91,6 +160,9 @@ if [ -n "$tags" ]; then
 fi
 
 echo "thumbnail: \"${thumbnail}\""
+echo "pitch: \"${pitch}\""
+echo "time: \"${time}\""
+echo "tempo: \"${tempo}\""
 echo "parts:"
 
 if [ -n "$parts" ]; then
