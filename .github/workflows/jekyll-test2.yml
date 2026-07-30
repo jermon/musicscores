@@ -1,5 +1,5 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: test2
+name: Deploy Jekyll with GitHub Pages dependencies preinstalled
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -23,56 +23,121 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    
-    outputs:
-      mymatrix: ${{ steps.dataStep.outputs.myoutput }}
-      
-    steps:
-        
-      - name: Checkout
-        uses: actions/checkout@v4
-        
-      - name: Create music output files
-        id: dataStep
-        run: echo "myoutput=`for f in \`find . -name *.json\`; do echo \`dirname ${f}\`; done|grep -v _site |cut -c3-| jq -cRs 'split("\n")'`" >> $GITHUB_OUTPUT
-
-  run-matrix:
-    needs: setup
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix: ${{ fromJson(needs.setup.outputs.mymatrix) }}
-
-    steps:
-      - name: Install musescore from apt
-        run: |
-          sudo apt-get update
-          sudo apt-get install musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        
-      - name: Create music output files
-        env: 
-          QT_QPA_PLATFORM: offscreen
-        run:  echo ${{matrix.target}}    # musescore3 ${f} -j job.json     
-        
   # Build job
   build:
     runs-on: ubuntu-latest
     steps:
-    
+      - name: Install musescore from apt
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
 
-        
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Restore generated score cache
+        uses: actions/cache@v6
+        with:
+          path: .cache/rendered-scores
+          key: ${{ runner.os }}-rendered-scores-${{ hashFiles('.github/workflows/jekyll-test2.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-rendered-scores-
+
+      - name: Restore cached song outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .cache/rendered-scores
+          while IFS= read -r index; do
+            [ -n "$index" ] || continue
+            dir="$(dirname "$index")"
+            rel="${dir#./}"
+            cache_dir=".cache/rendered-scores/$rel"
+            if [ -d "$cache_dir" ]; then
+              echo "Restoring cached outputs for $rel"
+              cp -a "$cache_dir"/. "$dir"/
+            fi
+          done < <(find . -path './.git' -prune -o -name 'index.html' -print | grep -v '^./index.html' | sort)
+
+      - name: Detect changed score files
+        id: changed-scores
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "push" ]; then
+            base="${{ github.event.before }}"
+            if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
+              base="$(git rev-list --max-parents=0 HEAD)"
+            fi
+            mapfile -t changed_json < <(git diff --name-only "$base" "${{ github.sha }}" -- '*.json' '**/*.json' 2>/dev/null || true)
+          else
+            mapfile -t changed_json < <(find . -name '*.json' | sort)
+          fi
+
+          files=()
+          for f in "${changed_json[@]}"; do
+            [ -n "$f" ] || continue
+            case "$f" in
+              ./.github/*|./_site/*|./node_modules/*) continue ;;
+            esac
+            if [[ "$f" == *.json ]] && [[ "$f" != "job.json" ]]; then
+              files+=("$f")
+            fi
+          done
+
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No changed score JSON files found."
+            echo "render_targets=" >> "$GITHUB_OUTPUT"
+          else
+            printf '%s\n' "${files[@]}" | sort -u > changed-score-files.txt
+            echo "render_targets=$(paste -sd, changed-score-files.txt)" >> "$GITHUB_OUTPUT"
+            echo "Changed score files:"
+            cat changed-score-files.txt
+          fi
+
+      - name: Create musescore batchfile
+        run: |
+          chmod u+x ./_bin/generate_jobfile.sh
+          ./_bin/generate_jobfile.sh
+
       - name: Create music output files
-        env: 
+        env:
           QT_QPA_PLATFORM: offscreen
-        run: for f in `find . -name *.json`; do cd `dirname ${f}`; musescore3 ${f} -j job.json; cd ..; done
+        run: |
+          set -euo pipefail
+          if [ -s changed-score-files.txt ]; then
+            while IFS= read -r f; do
+              [ -n "$f" ] || continue
+              dir="$(dirname "$f")"
+              (
+                cd "$dir"
+                musescore3 "$f" -j job.json
+              )
+            done < changed-score-files.txt
+          else
+            echo "No changed score files detected; skipping MuseScore render step."
+          fi
+
+      - name: Update cached song outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .cache/rendered-scores
+          while IFS= read -r index; do
+            [ -n "$index" ] || continue
+            dir="$(dirname "$index")"
+            rel="${dir#./}"
+            cache_dir=".cache/rendered-scores/$rel"
+            mkdir -p "$cache_dir"
+            echo "Caching outputs for $rel"
+            cp -a "$dir"/. "$cache_dir"/
+          done < <(find . -path './.git' -prune -o -name 'index.html' -print | grep -v '^./index.html' | sort)
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
@@ -81,16 +146,16 @@ jobs:
           destination: ./_site
  
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
 
   # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+  # deploy:
+  #  environment:
+  #    name: github-pages
+  #    url: ${{ steps.deployment.outputs.page_url }}
+  #  runs-on: ubuntu-latest
+  #  needs: build
+  #  steps:
+  #    - name: Deploy to GitHub Pages
+  #      id: deployment
+  #      uses: actions/deploy-pages@v5
