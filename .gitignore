@@ -1,6 +1,5 @@
 .mscbackup
 *.autosave
-.*
 job.job
 _site
 serve
@@ -10,3 +9,5 @@ serve
 *.mpos
 *.xml
 job.json
+.task/*
+.*,
