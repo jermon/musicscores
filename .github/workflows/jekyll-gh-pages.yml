@@ -27,22 +27,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Cache apt package downloads
-        id: apt-cache
-        uses: actions/cache@v6
-        with:
-          path: |
-            /var/cache/apt/archives
-            /var/lib/apt/lists
-          key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/jekyll-gh-pages.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-apt-
-
       - name: Install musescore from apt
         run: |
-          if [ "${{ steps.apt-cache.outputs.cache-hit }}" != "true" ]; then
-            sudo apt-get update
-          fi
+          sudo apt-get update
           sudo apt-get install -y --no-install-recommends musescore3 musescore-general-soundfont-small musescore-general-soundfont musescore-general-soundfont-lossless
 
       - name: Checkout
